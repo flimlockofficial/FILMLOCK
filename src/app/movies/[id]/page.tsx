@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { trendingMovies, upcomingMovies } from "@/lib/mock-data";
+import { trendingMovies, newlyReleasedMovies } from "@/lib/mock-data";
 import { Star } from "lucide-react";
 import { MovieDetailsClient } from "./movie-details-client";
 import React from "react";
@@ -9,7 +9,7 @@ import React from "react";
 export default function MovieDetailsPage({ params }: { params: { id: string } }) {
   // `params` is a promise here, so we unwrap it.
   const resolvedParams = React.use(Promise.resolve({ id: params.id }));
-  const allMovies = [...trendingMovies, ...upcomingMovies];
+  const allMovies = [...trendingMovies, ...newlyReleasedMovies];
   const movie = allMovies.find((m) => m.id.toString() === resolvedParams.id);
 
   if (!movie) {
