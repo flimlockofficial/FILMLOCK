@@ -18,7 +18,7 @@ export function Footer() {
             © {year} FilmLock. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="#" aria-label="FilmLock on Instagram">
+            <Link href="https://www.instagram.com/filmlock_official?igsh=MTRiaHlrendzMGVjOA==" aria-label="FilmLock on Instagram">
               <Instagram className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
             <Link href="#" aria-label="FilmLock on Youtube">
