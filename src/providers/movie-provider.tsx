@@ -51,7 +51,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const getAllMovies = useCallback((): Movie[] => {
     const allMovieMap = new Map<number, Movie>();
     // The order matters, spread all movies to ensure the map has the latest version of each movie.
-    [...newlyReleasedMovies, ...trendingMovies, ...bollywoodMovies, ...hollywoodMovies, ...animeMovies].forEach(movie => {
+    // Start with all category lists, then newly released, then trending.
+    [...bollywoodMovies, ...hollywoodMovies, ...animeMovies, ...newlyReleasedMovies, ...trendingMovies].forEach(movie => {
         allMovieMap.set(movie.id, movie);
     });
     return Array.from(allMovieMap.values());
@@ -65,15 +66,14 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const isTrending = (id: number): boolean => {
     return trendingMovies.some(movie => movie.id === id);
   }
-
-  const removeFromAllNonTrendingLists = (id: number) => {
-    setNewlyReleasedMovies(prev => prev.filter(m => m.id !== id));
-    setBollywoodMovies(prev => prev.filter(m => m.id !== id));
-    setHollywoodMovies(prev => prev.filter(m => m.id !== id));
-    setAnimeMovies(prev => prev.filter(m => m.id !== id));
-  }
-
-  const addToCategoryList = (movie: Movie) => {
+  
+  const restoreMovieToLists = (movie: Movie) => {
+    // Add to newly released if it was there before (we assume all non-trending movies can be considered "newly released" in this context for simplicity, or we could add a date check)
+    if (!newlyReleasedMovies.some(m => m.id === movie.id)) {
+        setNewlyReleasedMovies(prev => [movie, ...prev]);
+    }
+    
+    // Add back to its specific category list
     switch (movie.category) {
         case 'bollywood':
             if (!bollywoodMovies.some(m => m.id === movie.id)) {
@@ -91,29 +91,31 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
             }
             break;
         default:
-             // Fallback for uncategorized movies, add to Newly Released
-             if (!newlyReleasedMovies.some(m => m.id === movie.id)) {
-                setNewlyReleasedMovies(prev => [movie, ...prev]);
-             }
+            // No specific category list to add back to
+            break;
     }
   }
 
+
   const toggleTrendingStatus = (id: number) => {
-    let movieToMove: Movie | undefined;
     const allMovies = getAllMovies();
-    movieToMove = allMovies.find(m => m.id === id);
+    const movieToMove = allMovies.find(m => m.id === id);
 
     if (!movieToMove) return;
     
     if (isTrending(id)) {
-      // It's currently trending, so remove from trending and add back to its category list
+      // It's currently trending, so remove from trending and add back to its appropriate lists
       setTrendingMovies(prev => prev.filter(m => m.id !== id));
-      addToCategoryList(movieToMove);
+      restoreMovieToLists(movieToMove);
     } else {
       // It's not trending, so move it to trending
-      // Ensure it's not in any other list besides potentially a category list
-      removeFromAllNonTrendingLists(id); 
-      setTrendingMovies(prev => [movieToMove!, ...prev]);
+      // Remove it from all other lists
+      setNewlyReleasedMovies(prev => prev.filter(m => m.id !== id));
+      setBollywoodMovies(prev => prev.filter(m => m.id !== id));
+      setHollywoodMovies(prev => prev.filter(m => m.id !== id));
+      setAnimeMovies(prev => prev.filter(m => m.id !== id));
+      
+      setTrendingMovies(prev => [movieToMove, ...prev]);
     }
   };
 
