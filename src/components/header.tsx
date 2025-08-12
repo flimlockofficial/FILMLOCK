@@ -11,7 +11,6 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/movies", label: "Movies" },
   { href: "/genres", label: "Genres" },
-  { href: "/watchlist", label: "Watchlist" },
   { href: "/contact", label: "Contact" },
 ];
 
