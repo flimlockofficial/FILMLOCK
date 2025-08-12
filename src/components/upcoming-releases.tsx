@@ -1,7 +1,11 @@
+
+"use client";
+
 import { MovieCard } from "./movie-card";
-import { newlyReleasedMovies } from "@/lib/mock-data";
+import { useMovies } from "@/providers/movie-provider";
 
 export function NewlyReleased() {
+  const { newlyReleasedMovies } = useMovies();
   return (
     <section className="container mx-auto max-w-screen-2xl py-16">
       <h2 className="mb-8 font-headline text-4xl font-bold">Newly Released</h2>

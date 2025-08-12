@@ -1,19 +1,30 @@
-import { notFound } from "next/navigation";
+
+'use client'
+
+import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
-import { trendingMovies, newlyReleasedMovies } from "@/lib/mock-data";
 import { Star } from "lucide-react";
 import { MovieDetailsClient } from "./movie-details-client";
-import React from "react";
+import { useMovies } from "@/providers/movie-provider";
 
-// This is now a React Server Component
-export default function MovieDetailsPage({ params }: { params: { id: string } }) {
-  // `params` is a promise here, so we unwrap it.
-  const resolvedParams = React.use(Promise.resolve({ id: params.id }));
-  const allMovies = [...trendingMovies, ...newlyReleasedMovies];
-  const movie = allMovies.find((m) => m.id.toString() === resolvedParams.id);
-
+export default function MovieDetailsPage() {
+  const params = useParams();
+  const { getMovieById } = useMovies();
+  const id = params.id ? parseInt(params.id as string, 10) : NaN;
+  const movie = !isNaN(id) ? getMovieById(id) : undefined;
+  
   if (!movie) {
-    notFound();
+    // We can't use notFound() directly in a client component in the same way.
+    // A simple solution is to return null or a "not found" message.
+    // For a better UX, you might implement a global 404 handler or redirect.
+     return (
+        <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
+          <div>
+            <h1 className="font-headline text-5xl font-bold">404 - Movie Not Found</h1>
+            <p className="mt-4 text-lg text-muted-foreground">The movie you are looking for does not exist.</p>
+          </div>
+        </div>
+      );
   }
 
   return (

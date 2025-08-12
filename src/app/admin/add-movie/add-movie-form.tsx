@@ -19,6 +19,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { Upload } from "lucide-react";
+import { useMovies } from "@/providers/movie-provider";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
@@ -30,6 +31,7 @@ const formSchema = z.object({
 export function AddMovieForm() {
   const { toast } = useToast();
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
+  const { addMovie } = useMovies();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,13 +43,27 @@ export function AddMovieForm() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    toast({
-      title: "Movie Added!",
-      description: `${values.title} has been successfully added. (This is a demo, data is not saved)`,
-    });
-    form.reset();
-    setPosterPreview(null);
+    if (posterPreview) {
+       addMovie({
+        id: Math.random(), // In a real app, the backend would generate this
+        title: values.title,
+        posterUrl: posterPreview,
+        releaseDate: values.releaseDate,
+        trailerUrl: values.trailerUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ",
+       });
+       toast({
+         title: "Movie Added!",
+         description: `${values.title} has been successfully added.`,
+       });
+       form.reset();
+       setPosterPreview(null);
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Please upload a poster image.",
+        })
+    }
   };
 
   return (
