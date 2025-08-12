@@ -12,7 +12,7 @@ export function HeroSection() {
         data-ai-hint="dark cinematic background"
       />
        <div className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4">
-        <h1 className="font-headline text-5xl font-bold md:text-7xl">
+        <h1 className="font-body text-5xl font-bold md:text-7xl">
           Your Next Favorite Film
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
