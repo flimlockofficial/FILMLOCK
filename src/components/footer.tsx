@@ -21,7 +21,7 @@ export function Footer() {
             <Link href="https://www.instagram.com/filmlock_official?igsh=MTRiaHlrendzMGVjOA==" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Instagram">
               <Instagram className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Youtube">
+            <Link href="https://www.youtube.com/@FilmLockofficial" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Youtube">
               <Youtube className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
             <Link href="https://t.me/flimlock" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Telegram">
