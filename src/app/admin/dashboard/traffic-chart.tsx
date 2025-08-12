@@ -14,9 +14,10 @@ const generateWeeklyData = () => {
 };
 
 export function TrafficChart() {
-    const [data, setData] = useState(() => generateWeeklyData());
+    const [data, setData] = useState<any[]>([]);
 
     useEffect(() => {
+        setData(generateWeeklyData());
         const interval = setInterval(() => {
         setData(generateWeeklyData());
         }, 5000); // Refresh chart data every 5 seconds
