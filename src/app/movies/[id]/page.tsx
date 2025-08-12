@@ -6,17 +6,39 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { MovieDetailsClient } from "./movie-details-client";
 import { useMovies } from "@/providers/movie-provider";
+import { useEffect, useState } from "react";
+import type { Movie } from "@/types";
 
 export default function MovieDetailsPage() {
   const params = useParams();
   const { getMovieById } = useMovies();
   const id = params.id ? parseInt(params.id as string, 10) : NaN;
-  const movie = !isNaN(id) ? getMovieById(id) : undefined;
   
-  if (!movie) {
-    // We can't use notFound() directly in a client component in the same way.
-    // A simple solution is to return null or a "not found" message.
-    // For a better UX, you might implement a global 404 handler or redirect.
+  // Use state to hold the movie details to avoid re-computing on every render
+  const [movie, setMovie] = useState<Movie | undefined | null>(undefined);
+
+  useEffect(() => {
+    if (!isNaN(id)) {
+      const foundMovie = getMovieById(id);
+      setMovie(foundMovie);
+    } else {
+      setMovie(null); // Explicitly set to null if id is not a number
+    }
+  }, [id, getMovieById]);
+  
+  if (movie === undefined) {
+    // Still loading
+    return (
+      <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
+        <div>
+          <h1 className="font-headline text-5xl font-bold">Loading...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (movie === null) {
+    // Finished loading, but movie not found
      return (
         <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
           <div>

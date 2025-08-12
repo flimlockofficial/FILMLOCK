@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     // Check for authentication status from sessionStorage
@@ -24,16 +24,16 @@ export default function AdminDashboardPage() {
     }
   }, [router]);
 
-  if (!isAuthenticated) {
+  if (isAuthenticated === null) {
     // Render a loading state or a skeleton screen while checking auth
     return (
         <div className="container mx-auto max-w-screen-2xl py-16">
             <div className="flex flex-col space-y-3">
-                <Skeleton className="h-[125px] w-full rounded-xl" />
-                <div className="space-y-2">
-                    <Skeleton className="h-4 w-4/5" />
-                    <Skeleton className="h-4 w-3/5" />
-                </div>
+                <h1 className="text-4xl font-bold mb-8 text-center invisible">Admin Dashboard</h1>
+                 <div className="flex justify-center">
+                    <Skeleton className="h-10 w-full max-w-md rounded-lg" />
+                 </div>
+                <Skeleton className="h-[400px] w-full rounded-xl mt-6" />
             </div>
       </div>
     );
