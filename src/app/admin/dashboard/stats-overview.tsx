@@ -4,12 +4,15 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Film, BarChart } from "lucide-react";
+import { useMovies } from "@/providers/movie-provider";
 
 export function StatsOverview() {
+  const { trendingMovies, newlyReleasedMovies } = useMovies();
+  const totalMovies = trendingMovies.length + newlyReleasedMovies.length;
+
   const [traffic, setTraffic] = useState({
     weekly: 10345,
     monthly: 42123,
-    totalMovies: 152,
   });
 
   useEffect(() => {
@@ -17,7 +20,6 @@ export function StatsOverview() {
       setTraffic({
         weekly: Math.floor(10000 + Math.random() * 2000),
         monthly: Math.floor(40000 + Math.random() * 5000),
-        totalMovies: 152, // Assuming this doesn't change as frequently
       });
     }, 3000); // Update every 3 seconds
 
@@ -52,8 +54,8 @@ export function StatsOverview() {
           <Film className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{traffic.totalMovies}</div>
-          <p className="text-xs text-muted-foreground">10 added this month</p>
+          <div className="text-2xl font-bold">{totalMovies}</div>
+          <p className="text-xs text-muted-foreground">Live count</p>
         </CardContent>
       </Card>
     </div>
