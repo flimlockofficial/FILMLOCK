@@ -50,8 +50,11 @@ export function AddMovieForm() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // In a real app, you'd upload the files to a storage service and get back URLs.
-    // For this prototype, we'll continue using the poster preview and simulate the movie upload.
-    if (posterPreview && values.movieFile) {
+    // For this prototype, we'll use blob URLs to simulate this.
+    if (posterPreview && values.movieFile?.[0]) {
+       const movieFile = values.movieFile[0];
+       const movieFileUrl = URL.createObjectURL(movieFile);
+
        addMovie({
         id: Date.now(), // Use timestamp for a more unique ID
         title: values.title,
@@ -59,8 +62,9 @@ export function AddMovieForm() {
         category: values.category as MovieCategory,
         releaseDate: values.releaseDate,
         trailerUrl: values.trailerUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        // movieUrl would be set here after upload
+        movieUrl: movieFileUrl, // Save the blob URL
        });
+
        toast({
          title: "Movie Added!",
          description: `${values.title} has been successfully added.`,
@@ -68,6 +72,12 @@ export function AddMovieForm() {
        form.reset();
        setPosterPreview(null);
        setMovieFileName(null);
+       // Clear file inputs is tricky, this is a common workaround
+       const posterInput = document.getElementById('poster-upload') as HTMLInputElement;
+       if (posterInput) posterInput.value = '';
+       const movieInput = document.getElementById('movie-upload') as HTMLInputElement;
+       if (movieInput) movieInput.value = '';
+
     } else {
         toast({
             variant: "destructive",

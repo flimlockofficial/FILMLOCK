@@ -7,4 +7,5 @@ export interface Movie {
   releaseDate?: string;
   trailerUrl?: string;
   category?: MovieCategory;
+  movieUrl?: string;
 }

@@ -9,15 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast";
 import { Download, Play, HelpCircle } from "lucide-react";
 import type { Movie } from "@/types";
@@ -29,31 +20,34 @@ interface MovieDetailsClientProps {
 export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
   const { toast } = useToast();
 
-  const handleDownload = async () => {
-    // In a real application, movie.movieUrl would point to the actual file.
-    // Since we are not uploading files to a server in this prototype,
-    // we will simulate the download action.
-    
-    // We can create a dummy file to simulate the download.
-    const movieFileContent = `This is a placeholder for the movie: ${movie.title}`;
-    const blob = new Blob([movieFileContent], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-    
+  const handleDownload = () => {
+    if (!movie.movieUrl) {
+      toast({
+        variant: "destructive",
+        title: "Download Unavailable",
+        description: "The movie file is not available for download.",
+      });
+      return;
+    }
+
+    // This creates a link to the blob URL created when the file was uploaded.
     const link = document.createElement("a");
-    link.href = url;
+    link.href = movie.movieUrl;
     // Suggest a filename for the download.
-    const fileName = `${movie.title.replace(/ /g, "_")}.txt`; // .txt for simulation, would be .mp4 in reality
+    const fileExtension = movie.movieUrl.startsWith('blob:') ? 'mp4' : movie.movieUrl.split('.').pop();
+    const fileName = `${movie.title.replace(/ /g, "_")}.${fileExtension}`;
     link.setAttribute("download", fileName);
     document.body.appendChild(link);
     link.click();
     
     toast({
         title: "Download Started",
-        description: `Downloading "${movie.title}". Please note this is a simulated file.`,
+        description: `Downloading "${movie.title}".`,
     });
 
     link.parentNode?.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    // Note: We don't revoke the blob URL here because it's stored in the movie provider state.
+    // In a real app with a backend, this would be a direct link to a storage bucket.
   };
 
   return (
