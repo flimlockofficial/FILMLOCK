@@ -8,8 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast";
-import { Download, Play } from "lucide-react";
+import { Download, Play, HelpCircle } from "lucide-react";
 import type { Movie } from "@/types";
 
 interface MovieDetailsClientProps {
@@ -46,7 +56,7 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
   };
 
   return (
-    <div className="mt-8 flex gap-4">
+    <div className="mt-8 flex flex-wrap gap-4">
       <Dialog>
         <DialogTrigger asChild>
           <Button>
@@ -75,6 +85,25 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
         <Download className="mr-2 h-5 w-5" />
         Download
       </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="secondary">
+            <HelpCircle className="mr-2 h-5 w-5" />
+            How to Download
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>How to Download Movies</AlertDialogTitle>
+            <AlertDialogDescription>
+              To download your favorite movies, simply click the &quot;Download&quot; button. This will initiate the download of the movie poster. Full movie downloads will be available soon!
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>Got it!</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
