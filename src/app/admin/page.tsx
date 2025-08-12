@@ -13,14 +13,16 @@ const AUTH_KEY = "filmlock_admin_auth";
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start as true to check auth
   const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already authenticated
+    // Check if user is already authenticated on mount
     if (sessionStorage.getItem(AUTH_KEY) === "true") {
       router.replace("/admin/dashboard");
+    } else {
+      setIsLoading(false); // Not authenticated, allow login
     }
   }, [router]);
 
@@ -28,23 +30,35 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setIsLoading(true);
 
-    if (password === ADMIN_PASSWORD) {
-      toast({
-        title: "Success!",
-        description: "Redirecting to admin dashboard.",
-      });
-      sessionStorage.setItem(AUTH_KEY, "true");
-      router.replace("/admin/dashboard");
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Authentication Failed",
-        description: "The password you entered is incorrect.",
-      });
-      setIsLoading(false);
-      setPassword("");
-    }
+    // Use a short timeout to allow UI to update before potential redirect
+    setTimeout(() => {
+        if (password === ADMIN_PASSWORD) {
+            toast({
+                title: "Success!",
+                description: "Redirecting to admin dashboard.",
+            });
+            sessionStorage.setItem(AUTH_KEY, "true");
+            router.replace("/admin/dashboard");
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Authentication Failed",
+                description: "The password you entered is incorrect.",
+            });
+            setIsLoading(false);
+            setPassword("");
+        }
+    }, 500);
   };
+  
+  // While checking auth, we can show a loader or nothing
+  if (isLoading) {
+    return (
+       <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
+        <p>Checking authentication...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16">
@@ -64,12 +78,11 @@ export default function AdminLoginPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                disabled={isLoading}
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Logging in..." : "Login"}
+            <Button type="submit" className="w-full">
+              Login
             </Button>
           </form>
         </CardContent>
