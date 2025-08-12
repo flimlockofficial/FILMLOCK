@@ -1,20 +1,29 @@
 
 "use client"
 
+import { useState, useEffect } from "react";
 import { Bar, BarChart as RechartsBarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-const data = [
-  { date: "Mon", visitors: 1203 },
-  { date: "Tue", visitors: 1520 },
-  { date: "Wed", visitors: 1435 },
-  { date: "Thu", visitors: 1680 },
-  { date: "Fri", visitors: 2105 },
-  { date: "Sat", visitors: 2540 },
-  { date: "Sun", visitors: 2310 },
-]
+const generateWeeklyData = () => {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  return days.map(day => ({
+    date: day,
+    visitors: Math.floor(1000 + Math.random() * 2000),
+  }));
+};
 
 export function TrafficChart() {
+  const [data, setData] = useState(() => generateWeeklyData());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setData(generateWeeklyData());
+    }, 5000); // Refresh chart data every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Card>
       <CardHeader>

@@ -1,8 +1,29 @@
 
+"use client";
+
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Film, BarChart } from "lucide-react";
 
 export function StatsOverview() {
+  const [traffic, setTraffic] = useState({
+    weekly: 10345,
+    monthly: 42123,
+    totalMovies: 152,
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTraffic({
+        weekly: Math.floor(10000 + Math.random() * 2000),
+        monthly: Math.floor(40000 + Math.random() * 5000),
+        totalMovies: 152, // Assuming this doesn't change as frequently
+      });
+    }, 3000); // Update every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="grid gap-4 md:grid-cols-3">
       <Card>
@@ -11,7 +32,7 @@ export function StatsOverview() {
           <BarChart className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">10,345</div>
+          <div className="text-2xl font-bold">{traffic.weekly.toLocaleString()}</div>
           <p className="text-xs text-muted-foreground">+12.5% from last week</p>
         </CardContent>
       </Card>
@@ -21,7 +42,7 @@ export function StatsOverview() {
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">42,123</div>
+          <div className="text-2xl font-bold">{traffic.monthly.toLocaleString()}</div>
           <p className="text-xs text-muted-foreground">+8.2% from last month</p>
         </CardContent>
       </Card>
@@ -31,7 +52,7 @@ export function StatsOverview() {
           <Film className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">152</div>
+          <div className="text-2xl font-bold">{traffic.totalMovies}</div>
           <p className="text-xs text-muted-foreground">10 added this month</p>
         </CardContent>
       </Card>
