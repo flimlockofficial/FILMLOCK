@@ -20,13 +20,14 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
-import { Upload } from "lucide-react";
+import { Upload, Film } from "lucide-react";
 import { useMovies } from "@/providers/movie-provider";
 import type { MovieCategory } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
   poster: z.any().refine((files) => files?.length === 1, "Poster image is required."),
+  movieFile: z.any().refine((files) => files?.length === 1, "Movie file is required."),
   category: z.enum(["bollywood", "hollywood", "anime"]),
   releaseDate: z.string().optional(),
   trailerUrl: z.string().url("Please enter a valid URL.").optional(),
@@ -35,6 +36,7 @@ const formSchema = z.object({
 export function AddMovieForm() {
   const { toast } = useToast();
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
+  const [movieFileName, setMovieFileName] = useState<string | null>(null);
   const { addMovie } = useMovies();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +49,9 @@ export function AddMovieForm() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    if (posterPreview) {
+    // In a real app, you'd upload the files to a storage service and get back URLs.
+    // For this prototype, we'll continue using the poster preview and simulate the movie upload.
+    if (posterPreview && values.movieFile) {
        addMovie({
         id: Math.random(), // In a real app, the backend would generate this
         title: values.title,
@@ -55,6 +59,7 @@ export function AddMovieForm() {
         category: values.category as MovieCategory,
         releaseDate: values.releaseDate,
         trailerUrl: values.trailerUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        // movieUrl would be set here after upload
        });
        toast({
          title: "Movie Added!",
@@ -62,11 +67,12 @@ export function AddMovieForm() {
        });
        form.reset();
        setPosterPreview(null);
+       setMovieFileName(null);
     } else {
         toast({
             variant: "destructive",
             title: "Error",
-            description: "Please upload a poster image.",
+            description: "Please upload both a poster image and a movie file.",
         })
     }
   };
@@ -75,7 +81,7 @@ export function AddMovieForm() {
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>Add a New Movie</CardTitle>
-        <CardDescription>Upload a movie poster and fill in the details to add a new movie to your site.</CardDescription>
+        <CardDescription>Upload a movie poster and the movie file to add a new movie to your site.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -94,7 +100,7 @@ export function AddMovieForm() {
                           ) : (
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                               <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
-                              <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload from your device</span></p>
+                              <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload poster</span></p>
                               <p className="text-xs text-muted-foreground">PNG, JPG or WEBP (MAX. 800x1200px)</p>
                             </div>
                           )}
@@ -118,6 +124,51 @@ export function AddMovieForm() {
                        />
                     </div>
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="movieFile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Movie File</FormLabel>
+                   <FormControl>
+                    <div className="relative flex items-center justify-center w-full">
+                       <label htmlFor="movie-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
+                          {movieFileName ? (
+                             <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
+                              <Film className="w-8 h-8 mb-4 text-primary" />
+                              <p className="mb-2 text-sm font-semibold">{movieFileName}</p>
+                              <p className="text-xs text-muted-foreground">Click to choose a different file</p>
+                            </div>
+                          ) : (
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
+                              <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload movie file</span></p>
+                              <p className="text-xs text-muted-foreground">MP4, MOV, or AVI</p>
+                            </div>
+                          )}
+                       </label>
+                       <Input 
+                         id="movie-upload" 
+                         type="file" 
+                         className="hidden"
+                         accept="video/mp4,video/x-m4v,video/*"
+                         onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                                field.onChange(e.target.files);
+                                setMovieFileName(file.name);
+                            }
+                         }}
+                       />
+                    </div>
+                  </FormControl>
+                   <FormDescription>
+                    Upload the actual movie file here.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
