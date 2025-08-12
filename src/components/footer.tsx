@@ -1,4 +1,4 @@
-import { Clapperboard, Twitter, Instagram, Facebook } from "lucide-react";
+import { Clapperboard, Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -18,14 +18,11 @@ export function Footer() {
             © {year} FilmLock. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="#" aria-label="FilmLock on Twitter">
-              <Twitter className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
-            </Link>
             <Link href="#" aria-label="FilmLock on Instagram">
               <Instagram className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
-            <Link href="#" aria-label="FilmLock on Facebook">
-              <Facebook className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
+            <Link href="#" aria-label="FilmLock on Youtube">
+              <Youtube className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
           </div>
         </div>
