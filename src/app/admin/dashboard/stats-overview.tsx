@@ -7,8 +7,8 @@ import { Users, Film, BarChart } from "lucide-react";
 import { useMovies } from "@/providers/movie-provider";
 
 export function StatsOverview() {
-  const { trendingMovies, newlyReleasedMovies } = useMovies();
-  const totalMovies = trendingMovies.length + newlyReleasedMovies.length;
+  const { getAllMovies } = useMovies();
+  const totalMovies = getAllMovies().length;
 
   const [traffic, setTraffic] = useState({
     weekly: 0,
@@ -16,21 +16,20 @@ export function StatsOverview() {
   });
 
   useEffect(() => {
-    // Set initial random values on mount (client-side)
-    setTraffic({
-        weekly: Math.floor(10000 + Math.random() * 2000),
-        monthly: Math.floor(40000 + Math.random() * 5000),
-    });
-
-    const interval = setInterval(() => {
-      setTraffic({
-        weekly: Math.floor(10000 + Math.random() * 2000),
-        monthly: Math.floor(40000 + Math.random() * 5000),
-      });
-    }, 3000); // Update every 3 seconds
-
-    return () => clearInterval(interval);
-  }, []);
+    // In a real application, you would fetch this data from your analytics service.
+    // For now, we'll only show stats if there are movies.
+    if (totalMovies > 0) {
+      const interval = setInterval(() => {
+        setTraffic({
+          weekly: Math.floor(100 + Math.random() * 500), // More realistic for a new site
+          monthly: Math.floor(500 + Math.random() * 2000),
+        });
+      }, 5000);
+      return () => clearInterval(interval);
+    } else {
+      setTraffic({ weekly: 0, monthly: 0 });
+    }
+  }, [totalMovies]);
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
@@ -41,7 +40,7 @@ export function StatsOverview() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{traffic.weekly.toLocaleString()}</div>
-          <p className="text-xs text-muted-foreground">+12.5% from last week</p>
+          <p className="text-xs text-muted-foreground">Live simulated data</p>
         </CardContent>
       </Card>
       <Card>
@@ -51,7 +50,7 @@ export function StatsOverview() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{traffic.monthly.toLocaleString()}</div>
-          <p className="text-xs text-muted-foreground">+8.2% from last month</p>
+          <p className="text-xs text-muted-foreground">Live simulated data</p>
         </CardContent>
       </Card>
       <Card>
