@@ -24,7 +24,7 @@ export function Footer() {
             <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Youtube">
               <Youtube className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
-            <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Telegram">
+            <Link href="https://t.me/flimlock" target="_blank" rel="noopener noreferrer" aria-label="FilmLock on Telegram">
               <Send className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
           </div>
