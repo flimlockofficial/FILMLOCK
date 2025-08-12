@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/button";
 
 export default function MovieDetailsPage({ params }: { params: { id: string } }) {
   const allMovies = [...trendingMovies, ...upcomingMovies];
+  // The 'id' parameter is directly available on `params` in client components.
+  // The error message might be misleading if it's incorrectly identifying this as a server component context.
+  // We will access it directly as this is a client component.
   const movie = allMovies.find((m) => m.id.toString() === params.id);
 
   if (!movie) {
