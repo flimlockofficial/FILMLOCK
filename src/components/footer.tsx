@@ -1,4 +1,4 @@
-import { Clapperboard, Instagram, Youtube } from "lucide-react";
+import { Clapperboard, Instagram, Send, Youtube } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -23,6 +23,9 @@ export function Footer() {
             </Link>
             <Link href="#" aria-label="FilmLock on Youtube">
               <Youtube className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
+            </Link>
+            <Link href="#" aria-label="FilmLock on Telegram">
+              <Send className="h-6 w-6 text-muted-foreground transition-colors hover:text-primary" />
             </Link>
           </div>
         </div>
