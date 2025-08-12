@@ -19,7 +19,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [newlyReleasedMovies, setNewlyReleasedMovies] = useState<Movie[]>(initialNewlyReleased);
 
   const addMovie = (movie: Movie) => {
-    // For this prototype, we'll add new movies to the "Newly Released" list
+    // Add new movies to the "Newly Released" list, making it appear first.
     setNewlyReleasedMovies(prevMovies => [movie, ...prevMovies]);
   };
   
