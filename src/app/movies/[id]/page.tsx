@@ -1,7 +1,10 @@
+"use client";
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { trendingMovies, upcomingMovies } from "@/lib/mock-data";
-import { Star } from "lucide-react";
+import { Star, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function MovieDetailsPage({ params }: { params: { id: string } }) {
   const allMovies = [...trendingMovies, ...upcomingMovies];
@@ -10,6 +13,26 @@ export default function MovieDetailsPage({ params }: { params: { id: string } })
   if (!movie) {
     notFound();
   }
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(movie.posterUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      // Truncate the title to a reasonable length for the filename
+      const fileName = `${movie.title.substring(0, 50).replace(/ /g, '_')}_poster.jpg`;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download poster:", error);
+      // You could add a user-facing error message here, e.g., using a toast
+    }
+  };
 
   return (
     <div className="container mx-auto max-w-screen-2xl py-16">
@@ -22,6 +45,7 @@ export default function MovieDetailsPage({ params }: { params: { id: string } })
             height={750}
             className="w-full rounded-lg object-cover"
             data-ai-hint="movie poster"
+            crossOrigin="anonymous" // Required for fetching image from a different origin
           />
         </div>
         <div className="w-full md:w-2/3">
@@ -42,6 +66,10 @@ export default function MovieDetailsPage({ params }: { params: { id: string } })
               <strong>Release Date:</strong> {movie.releaseDate}
             </p>
           )}
+           <Button onClick={handleDownload} className="mt-8">
+            <Download className="mr-2 h-5 w-5" />
+            Download Poster
+          </Button>
         </div>
       </div>
     </div>
