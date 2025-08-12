@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 
-const ADMIN_PASSWORD = "PM175055"; // This should be in an env file in a real app
+const ADMIN_PASSWORD = "PRASHANT175055"; // This should be in an env file in a real app
 const AUTH_KEY = "filmlock_admin_auth";
 
 export default function AdminLoginPage() {
