@@ -1,6 +1,6 @@
 "use client";
 
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { MovieCard } from "./movie-card";
 import { trendingMovies } from "@/lib/mock-data";
 
@@ -12,8 +12,9 @@ export function TrendingMovies() {
         opts={{
           align: "start",
           loop: true,
+          dragFree: true,
         }}
-        className="w-full"
+        className="w-full group"
       >
         <CarouselContent className="-ml-4">
           {trendingMovies.map((movie) => (
@@ -22,8 +23,10 @@ export function TrendingMovies() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="ml-16 text-primary hover:bg-primary hover:text-primary-foreground disabled:text-muted-foreground" />
-        <CarouselNext className="mr-16 text-primary hover:bg-primary hover:text-primary-foreground disabled:text-muted-foreground" />
+        {/* The parent div of CarouselContent has overflow-hidden, so we need a sibling for the scrollbar track */}
+        <div className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 w-2/3 h-2 rounded-full bg-secondary/40">
+           {/* Custom glowing scrollbar thumb - this is a decorative element as embla-carousel handles the actual scrolling */}
+        </div>
       </Carousel>
     </section>
   );

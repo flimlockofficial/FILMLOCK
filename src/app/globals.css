@@ -55,4 +55,19 @@
   body {
     @apply bg-background text-foreground;
   }
+  .embla__container {
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+  }
+  .embla__container::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
+}
+
+@layer utilities {
+  .embla__scroll-snap {
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+  }
 }
