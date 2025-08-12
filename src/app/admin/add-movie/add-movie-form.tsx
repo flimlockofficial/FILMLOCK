@@ -53,7 +53,7 @@ export function AddMovieForm() {
     // For this prototype, we'll continue using the poster preview and simulate the movie upload.
     if (posterPreview && values.movieFile) {
        addMovie({
-        id: Math.random(), // In a real app, the backend would generate this
+        id: Date.now(), // Use timestamp for a more unique ID
         title: values.title,
         posterUrl: posterPreview,
         category: values.category as MovieCategory,
@@ -96,7 +96,7 @@ export function AddMovieForm() {
                     <div className="relative flex items-center justify-center w-full">
                        <label htmlFor="poster-upload" className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
                           {posterPreview ? (
-                            <Image src={posterPreview} alt="Poster preview" width={150} height={225} className="object-contain h-full" />
+                            <Image src={posterPreview} alt="Poster preview" width={150} height={225} className="object-contain h-full" crossOrigin="anonymous" />
                           ) : (
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                               <Upload className="w-8 h-8 mb-4 text-muted-foreground" />

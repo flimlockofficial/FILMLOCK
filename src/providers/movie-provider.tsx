@@ -27,10 +27,6 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [animeMovies, setAnimeMovies] = useState<Movie[]>([]);
 
   const addMovie = (movie: Movie) => {
-    // Add to newly released by default
-    setNewlyReleasedMovies(prevMovies => [movie, ...prevMovies]);
-
-    // Also add to its specific category list
     switch (movie.category) {
         case 'bollywood':
             setBollywoodMovies(prev => [movie, ...prev]);
@@ -41,6 +37,10 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
         case 'anime':
             setAnimeMovies(prev => [movie, ...prev]);
             break;
+        default:
+             // As a fallback, add to newly released if no category somehow
+            setNewlyReleasedMovies(prevMovies => [movie, ...prevMovies]);
+            break;
     }
   };
   
@@ -50,7 +50,6 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   };
   
   const getAllMovies = (): Movie[] => {
-    // Use a Set to avoid duplicates since a movie can be in multiple lists (e.g., newly released and its category)
     const allMovieMap = new Map<number, Movie>();
     [...newlyReleasedMovies, ...trendingMovies, ...bollywoodMovies, ...hollywoodMovies, ...animeMovies].forEach(movie => {
         allMovieMap.set(movie.id, movie);
@@ -72,16 +71,26 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const addToCategoryList = (movie: Movie) => {
     switch (movie.category) {
         case 'bollywood':
-            setBollywoodMovies(prev => [movie, ...prev]);
+            // Check if it's already there before adding
+            if (!bollywoodMovies.some(m => m.id === movie.id)) {
+                setBollywoodMovies(prev => [movie, ...prev]);
+            }
             break;
         case 'hollywood':
-            setHollywoodMovies(prev => [movie, ...prev]);
+             if (!hollywoodMovies.some(m => m.id === movie.id)) {
+                setHollywoodMovies(prev => [movie, ...prev]);
+            }
             break;
         case 'anime':
-            setAnimeMovies(prev => [movie, ...prev]);
+             if (!animeMovies.some(m => m.id === movie.id)) {
+                setAnimeMovies(prev => [movie, ...prev]);
+            }
             break;
         default:
-             setNewlyReleasedMovies(prev => [movie, ...prev]);
+             // Fallback for uncategorized movies
+             if (!newlyReleasedMovies.some(m => m.id === movie.id)) {
+                setNewlyReleasedMovies(prev => [movie, ...prev]);
+             }
     }
   }
 
@@ -94,12 +103,12 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
       movieToMove = trendingMovies.find(m => m.id === id);
       if (movieToMove) {
         setTrendingMovies(prev => prev.filter(m => m.id !== id));
-        // Also add it back to its original category list
         addToCategoryList(movieToMove);
       }
     } else {
       // It's not trending, so move it to trending
-      movieToMove = getAllMovies().find(m => m.id === id);
+      const allMovies = getAllMovies();
+      movieToMove = allMovies.find(m => m.id === id);
        if (movieToMove) {
         // Remove from any list it might be in
         removeFromAllNonTrendingLists(id);
