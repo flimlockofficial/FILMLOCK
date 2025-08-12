@@ -30,29 +30,30 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
   const { toast } = useToast();
 
   const handleDownload = async () => {
-    try {
-      const response = await fetch(movie.posterUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      const fileName = `${movie.title.substring(0, 50).replace(/ /g, "_")}_poster.jpg`;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Failed to download poster:", error);
-      toast({
-        variant: "destructive",
-        title: "Download Failed",
-        description: "There was a problem downloading the movie poster. Please try again later.",
-      });
-    }
+    // In a real application, movie.movieUrl would point to the actual file.
+    // Since we are not uploading files to a server in this prototype,
+    // we will simulate the download action.
+    
+    // We can create a dummy file to simulate the download.
+    const movieFileContent = `This is a placeholder for the movie: ${movie.title}`;
+    const blob = new Blob([movieFileContent], { type: "text/plain" });
+    const url = window.URL.createObjectURL(blob);
+    
+    const link = document.createElement("a");
+    link.href = url;
+    // Suggest a filename for the download.
+    const fileName = `${movie.title.replace(/ /g, "_")}.txt`; // .txt for simulation, would be .mp4 in reality
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    
+    toast({
+        title: "Download Started",
+        description: `Downloading "${movie.title}". Please note this is a simulated file.`,
+    });
+
+    link.parentNode?.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
 
   return (
@@ -83,7 +84,7 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       </Dialog>
       <Button onClick={handleDownload} variant="outline">
         <Download className="mr-2 h-5 w-5" />
-        Download
+        Download Movie
       </Button>
       <Dialog>
         <DialogTrigger asChild>
