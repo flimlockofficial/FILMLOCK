@@ -38,9 +38,9 @@ export function HeroSection() {
 
   return (
     <section className="relative h-[60vh] min-h-[450px] w-full">
-      <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
       <div
-        className="absolute inset-0 bg-cover bg-center bg-background"
+        className="absolute inset-0 bg-gradient-to-br from-background via-slate-900 to-black"
         data-ai-hint="dark cinematic background"
       />
       <div className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4">
