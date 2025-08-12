@@ -3,7 +3,6 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import type { Movie } from '@/types';
-import { trendingMovies as initialTrending, newlyReleasedMovies as initialNewlyReleased } from '@/lib/mock-data';
 
 interface MovieContextType {
   trendingMovies: Movie[];
@@ -18,8 +17,8 @@ interface MovieContextType {
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [trendingMovies, setTrendingMovies] = useState<Movie[]>(initialTrending);
-  const [newlyReleasedMovies, setNewlyReleasedMovies] = useState<Movie[]>(initialNewlyReleased);
+  const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
+  const [newlyReleasedMovies, setNewlyReleasedMovies] = useState<Movie[]>([]);
 
   const addMovie = (movie: Movie) => {
     // Add new movies to the "Newly Released" list, making it appear first.
