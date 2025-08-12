@@ -35,6 +35,8 @@ export function AddMovieForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      releaseDate: "",
+      trailerUrl: "",
     },
   });
 
@@ -137,8 +139,8 @@ export function AddMovieForm() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? "Adding..." : "Add Movie"}
+            <Button type="submit">
+              Add Movie
             </Button>
           </form>
         </Form>
