@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -12,7 +13,7 @@ const navLinks = [
   { href: "/movies", label: "Movies" },
   { href: "/genres", label: "Genres" },
   { href: "/contact", label: "Contact" },
-  { href: "/admin/add-movie", label: "Add Movie" },
+  { href: "/admin", label: "Admin" },
 ];
 
 export function Header() {
@@ -35,7 +36,7 @@ export function Header() {
               href={href}
               className={cn(
                 "transition-colors hover:text-primary",
-                pathname === href ? "text-primary" : "text-muted-foreground"
+                pathname.startsWith(href) && href !== "/" || pathname === href ? "text-primary" : "text-muted-foreground"
               )}
             >
               {label}
@@ -62,7 +63,7 @@ export function Header() {
                     href={href}
                     className={cn(
                       "text-xl font-medium transition-colors hover:text-primary",
-                       pathname === href ? "text-primary" : "text-foreground"
+                       pathname.startsWith(href) && href !== "/" || pathname === href ? "text-primary" : "text-foreground"
                     )}
                   >
                     {label}
