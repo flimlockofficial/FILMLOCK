@@ -29,6 +29,7 @@ export function ManageMoviesTable() {
           <TableHeader>
             <TableRow>
               <TableHead>Title</TableHead>
+              <TableHead>Category</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Action</TableHead>
             </TableRow>
@@ -37,6 +38,9 @@ export function ManageMoviesTable() {
             {allMovies.map((movie) => (
               <TableRow key={movie.id}>
                 <TableCell className="font-medium">{movie.title}</TableCell>
+                <TableCell>
+                  <Badge variant="outline" className="capitalize">{movie.category || 'N/A'}</Badge>
+                </TableCell>
                 <TableCell>
                   {isTrending(movie.id) ? (
                     <Badge variant="default" className="bg-primary/80">

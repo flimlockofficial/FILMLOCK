@@ -16,14 +16,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import { useMovies } from "@/providers/movie-provider";
+import type { MovieCategory } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
   poster: z.any().refine((files) => files?.length === 1, "Poster image is required."),
+  category: z.enum(["bollywood", "hollywood", "anime"]),
   releaseDate: z.string().optional(),
   trailerUrl: z.string().url("Please enter a valid URL.").optional(),
 });
@@ -48,6 +51,7 @@ export function AddMovieForm() {
         id: Math.random(), // In a real app, the backend would generate this
         title: values.title,
         posterUrl: posterPreview,
+        category: values.category as MovieCategory,
         releaseDate: values.releaseDate,
         trailerUrl: values.trailerUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ",
        });
@@ -125,6 +129,28 @@ export function AddMovieForm() {
                        />
                     </div>
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="hollywood">Hollywood</SelectItem>
+                      <SelectItem value="bollywood">Bollywood</SelectItem>
+                      <SelectItem value="anime">Anime</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
