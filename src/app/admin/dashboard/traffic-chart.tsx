@@ -14,15 +14,15 @@ const generateWeeklyData = () => {
 };
 
 export function TrafficChart() {
-  const [data, setData] = useState(() => generateWeeklyData());
+    const [data, setData] = useState(() => generateWeeklyData());
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setData(generateWeeklyData());
-    }, 5000); // Refresh chart data every 5 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+        setData(generateWeeklyData());
+        }, 5000); // Refresh chart data every 5 seconds
 
-    return () => clearInterval(interval);
-  }, []);
+        return () => clearInterval(interval);
+    }, []);
 
   return (
     <Card>

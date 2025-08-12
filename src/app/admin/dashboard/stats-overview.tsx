@@ -11,11 +11,17 @@ export function StatsOverview() {
   const totalMovies = trendingMovies.length + newlyReleasedMovies.length;
 
   const [traffic, setTraffic] = useState({
-    weekly: 10345,
-    monthly: 42123,
+    weekly: 0,
+    monthly: 0,
   });
 
   useEffect(() => {
+    // Set initial random values on mount (client-side)
+    setTraffic({
+        weekly: Math.floor(10000 + Math.random() * 2000),
+        monthly: Math.floor(40000 + Math.random() * 5000),
+    });
+
     const interval = setInterval(() => {
       setTraffic({
         weekly: Math.floor(10000 + Math.random() * 2000),
