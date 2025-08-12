@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ import type { Movie } from "@/types";
 
 export function HeroSection() {
   const { getAllMovies } = useMovies();
-  const allMovies = getAllMovies();
+  const allMovies = useMemo(() => getAllMovies(), [getAllMovies]);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Movie[]>([]);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
