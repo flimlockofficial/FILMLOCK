@@ -13,24 +13,29 @@ const AUTH_KEY = "filmlock_admin_auth";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    const isAuthenticated = sessionStorage.getItem(AUTH_KEY) === "true";
-    if (!isAuthenticated) {
+    // This check now runs only on the client, after the component mounts.
+    const authStatus = sessionStorage.getItem(AUTH_KEY) === "true";
+    if (!authStatus) {
       router.replace("/admin");
+    } else {
+      setIsAuthenticated(true);
     }
   }, [router]);
 
-  if (!isClient || (typeof window !== 'undefined' && sessionStorage.getItem(AUTH_KEY) !== "true")) {
+  // While we're checking for authentication, show a loading message.
+  // This prevents the dashboard from flashing before the redirect can happen.
+  if (!isAuthenticated) {
     return (
       <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
-        <p>Redirecting to login...</p>
+        <p>Verifying authentication...</p>
       </div>
     );
   }
-
+  
+  // If authenticated, render the full dashboard.
   return (
     <div className="container mx-auto max-w-screen-2xl py-16">
       <h1 className="text-4xl font-bold mb-8 text-center">Admin Dashboard</h1>
