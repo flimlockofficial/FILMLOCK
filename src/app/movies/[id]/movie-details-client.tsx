@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast";
 import { Download, Play, HelpCircle } from "lucide-react";
@@ -85,25 +85,30 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
         <Download className="mr-2 h-5 w-5" />
         Download
       </Button>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+      <Dialog>
+        <DialogTrigger asChild>
           <Button variant="secondary">
             <HelpCircle className="mr-2 h-5 w-5" />
             How to Download
           </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>How to Download Movies</AlertDialogTitle>
-            <AlertDialogDescription>
-              To download your favorite movies, simply click the &quot;Download&quot; button. This will initiate the download of the movie poster. Full movie downloads will be available soon!
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction>Got it!</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        </DialogTrigger>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>How to Download</DialogTitle>
+          </DialogHeader>
+          <div className="aspect-video">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
