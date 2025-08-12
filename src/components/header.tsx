@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/movies", label: "Movies" },
   { href: "/genres", label: "Genres" },
   { href: "/contact", label: "Contact" },
+  { href: "/admin/add-movie", label: "Add Movie" },
 ];
 
 export function Header() {
