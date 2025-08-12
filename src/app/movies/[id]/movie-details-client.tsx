@@ -1,8 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Download } from "lucide-react";
+import { Download, Play } from "lucide-react";
 import type { Movie } from "@/types";
 
 interface MovieDetailsClientProps {
@@ -39,9 +46,35 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
   };
 
   return (
-    <Button onClick={handleDownload} className="mt-8">
-      <Download className="mr-2 h-5 w-5" />
-      Download
-    </Button>
+    <div className="mt-8 flex gap-4">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>
+            <Play className="mr-2 h-5 w-5" />
+            Trailer
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>{movie.title} - Trailer</DialogTitle>
+          </DialogHeader>
+          <div className="aspect-video">
+            <iframe
+              width="100%"
+              height="100%"
+              src={movie.trailerUrl}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Button onClick={handleDownload} variant="outline">
+        <Download className="mr-2 h-5 w-5" />
+        Download
+      </Button>
+    </div>
   );
 }

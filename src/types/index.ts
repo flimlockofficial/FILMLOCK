@@ -3,4 +3,5 @@ export interface Movie {
   title: string;
   posterUrl: string;
   releaseDate?: string;
+  trailerUrl?: string;
 }
