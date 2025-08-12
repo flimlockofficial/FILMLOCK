@@ -50,6 +50,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // Load state from localStorage only on the client side after the component has mounted
     setTrendingMovies(getFromLocalStorage('trendingMovies', []));
     setNewlyReleasedMovies(getFromLocalStorage('newlyReleasedMovies', []));
     setBollywoodMovies(getFromLocalStorage('bollywoodMovies', []));
@@ -186,8 +187,10 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 
 export const useMovies = () => {
   const context = useContext(MovieContext);
-  if (context === undefined && typeof window !== 'undefined') {
-    throw new Error('useMovies must be used within a MovieProvider');
+  if (context === undefined) {
+    if (typeof window !== 'undefined') {
+        throw new Error('useMovies must be used within a MovieProvider');
+    }
   }
   return context as MovieContextType;
 };
