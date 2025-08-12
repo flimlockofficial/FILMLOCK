@@ -7,10 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -74,30 +75,18 @@ export function AddMovieForm() {
     <Card className="max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>Add a New Movie</CardTitle>
+        <CardDescription>Upload a movie poster and fill in the details to add a new movie to your site.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Movie Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter movie title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="poster"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Movie Poster</FormLabel>
-                  <FormControl>
+                   <FormControl>
                     <div className="relative flex items-center justify-center w-full">
                        <label htmlFor="poster-upload" className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-secondary">
                           {posterPreview ? (
@@ -105,7 +94,7 @@ export function AddMovieForm() {
                           ) : (
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                               <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
-                              <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                              <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload from your device</span></p>
                               <p className="text-xs text-muted-foreground">PNG, JPG or WEBP (MAX. 800x1200px)</p>
                             </div>
                           )}
@@ -128,6 +117,19 @@ export function AddMovieForm() {
                          }}
                        />
                     </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Movie Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter movie title" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -177,11 +179,14 @@ export function AddMovieForm() {
                   <FormControl>
                     <Input placeholder="https://youtube.com/watch?v=..." {...field} />
                   </FormControl>
+                   <FormDescription>
+                    Provide a link to the movie's trailer on YouTube.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">
+            <Button type="submit" size="lg" className="w-full">
               Add Movie
             </Button>
           </form>
