@@ -40,7 +40,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     try {
       const storedMovies = localStorage.getItem('movies');
-      if (storedMovies) {
+      // If there are movies in storage, use them. Otherwise, default to the Wednesday movie.
+      if (storedMovies && JSON.parse(storedMovies).length > 0) {
         setMovies(JSON.parse(storedMovies));
       } else {
         setMovies(initialWednesdayMovie);
