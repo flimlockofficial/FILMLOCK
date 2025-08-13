@@ -10,6 +10,7 @@ interface MovieContextType {
   bollywoodMovies: Movie[];
   hollywoodMovies: Movie[];
   animeMovies: Movie[];
+  southIndianMovies: Movie[];
   getAllMovies: () => Movie[];
   getMovieById: (id: number) => Movie | undefined;
   addMovie: (movie: Movie) => void;
@@ -86,6 +87,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const bollywoodMovies = useMemo(() => filterMoviesByCategory("bollywood"), [filterMoviesByCategory]);
   const hollywoodMovies = useMemo(() => filterMoviesByCategory("hollywood"), [filterMoviesByCategory]);
   const animeMovies = useMemo(() => filterMoviesByCategory("anime"), [filterMoviesByCategory]);
+  const southIndianMovies = useMemo(() => filterMoviesByCategory("south-indian"), [filterMoviesByCategory]);
 
   const value = { 
       trendingMovies, 
@@ -93,6 +95,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
       bollywoodMovies,
       hollywoodMovies,
       animeMovies,
+      southIndianMovies,
       getMovieById, 
       getAllMovies,
       addMovie,

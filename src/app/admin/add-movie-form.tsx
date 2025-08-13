@@ -16,7 +16,7 @@ import type { MovieCategory } from "@/types";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  category: z.enum(["hollywood", "bollywood", "anime"], {
+  category: z.enum(["hollywood", "bollywood", "anime", "south-indian"], {
     required_error: "Category is required",
   }),
   poster: z.any().refine(files => files?.length === 1, "Poster is required."),
@@ -95,6 +95,7 @@ export function AddMovieForm() {
                 <SelectItem value="hollywood">Hollywood</SelectItem>
                 <SelectItem value="bollywood">Bollywood</SelectItem>
                 <SelectItem value="anime">Anime</SelectItem>
+                <SelectItem value="south-indian">South Indian</SelectItem>
             </SelectContent>
         </Select>
         {errors.category && <p className="text-sm text-destructive">{errors.category.message}</p>}

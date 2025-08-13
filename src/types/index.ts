@@ -1,5 +1,5 @@
 
-export type MovieCategory = "bollywood" | "hollywood" | "anime";
+export type MovieCategory = "bollywood" | "hollywood" | "anime" | "south-indian";
 
 export interface Movie {
   id: number;
