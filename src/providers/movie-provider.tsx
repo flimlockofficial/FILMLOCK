@@ -4,9 +4,20 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
 import type { Movie, MovieCategory } from '@/types';
 
-// In-memory data store
-let moviesStore: Movie[] = [];
-let trendingStore: number[] = [];
+const initialMovies: Movie[] = [
+    { id: 1, title: "Cyber City Chronicles", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
+    { id: 2, title: "Echoes of the Past", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
+    { id: 3, title: "The Last Stand", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
+    { id: 4, title: "Midnight Whispers", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
+    { id: 5, title: "Galactic Odyssey", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
+    { id: 6, title: "Secrets of the Deep", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
+    { id: 7, title: "Project Phoenix", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "bollywood", movieUrl: "#" },
+    { id: 8, title: "The Gilded Cage", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "bollywood", movieUrl: "#" },
+    { id: 9, title: "Neon Velocity", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "anime", movieUrl: "#" },
+    { id: 10, title: "Chronos", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "anime", movieUrl: "#" },
+];
+
+const initialTrendingIds: number[] = [1, 5, 7, 9];
 
 
 interface MovieContextType {
@@ -16,37 +27,15 @@ interface MovieContextType {
   hollywoodMovies: Movie[];
   animeMovies: Movie[];
   getAllMovies: () => Movie[];
-  addMovie: (movie: Movie) => void;
-  deleteMovie: (id: number) => void;
   getMovieById: (id: number) => Movie | undefined;
-  toggleTrendingStatus: (id: number) => void;
-  isTrending: (id: number) => boolean;
 }
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies, setMovies] = useState<Movie[]>(moviesStore);
-  const [trendingIds, setTrendingIds] = useState<number[]>(trendingStore);
+  const [movies] = useState<Movie[]>(initialMovies);
+  const [trendingIds] = useState<number[]>(initialTrendingIds);
 
-  const addMovie = (movie: Movie) => {
-    const newMovie = { ...movie, id: Date.now() }; // Ensure unique ID
-    const updatedMovies = [newMovie, ...movies];
-    setMovies(updatedMovies);
-    moviesStore = updatedMovies;
-  };
-  
-  const deleteMovie = (id: number) => {
-    const updatedMovies = movies.filter(m => m.id !== id);
-    const updatedTrendingIds = trendingIds.filter(tid => tid !== id);
-    
-    setMovies(updatedMovies);
-    setTrendingIds(updatedTrendingIds);
-
-    moviesStore = updatedMovies;
-    trendingStore = updatedTrendingIds;
-  }
-  
   const getAllMovies = useCallback((): Movie[] => {
     return movies.sort((a,b) => b.id - a.id);
   }, [movies]);
@@ -54,21 +43,6 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const getMovieById = useCallback((id: number): Movie | undefined => {
     return movies.find(movie => movie.id === id);
   }, [movies]);
-  
-  const isTrending = (id: number): boolean => {
-    return trendingIds.includes(id);
-  }
-  
-  const toggleTrendingStatus = (id: number) => {
-    let updatedTrendingIds;
-    if (trendingIds.includes(id)) {
-      updatedTrendingIds = trendingIds.filter(tid => tid !== id);
-    } else {
-      updatedTrendingIds = [id, ...trendingIds];
-    }
-    setTrendingIds(updatedTrendingIds);
-    trendingStore = updatedTrendingIds;
-  };
   
   const trendingMovies = useMemo(() => {
     return movies.filter(m => trendingIds.includes(m.id)).sort((a, b) => b.id - a.id);
@@ -79,7 +53,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const newlyReleasedMovies = useMemo(() => {
-    // Return all movies sorted by ID, limited to a certain number if desired
+    // Return all movies sorted by ID
     return movies.sort((a, b) => b.id - a.id);
   }, [movies]);
 
@@ -94,12 +68,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
         bollywoodMovies,
         hollywoodMovies,
         animeMovies,
-        addMovie, 
-        deleteMovie,
         getMovieById, 
         getAllMovies, 
-        toggleTrendingStatus, 
-        isTrending 
     }}>
       {children}
     </MovieContext.Provider>
