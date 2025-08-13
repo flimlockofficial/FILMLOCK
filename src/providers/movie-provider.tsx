@@ -12,7 +12,7 @@ interface MovieContextType {
   animeMovies: Movie[];
   southIndianMovies: Movie[];
   getAllMovies: () => Movie[];
-  getMovieById: (id: number) => Movie | undefined;
+  getMovieById: (id: number) => Movie | null | undefined;
   addMovie: (movie: Movie) => void;
   deleteMovie: (id: number) => void;
   toggleTrending: (id: number) => void;
@@ -20,33 +20,30 @@ interface MovieContextType {
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
-// All movies will now be added by the user.
+// This key will be used to save/load movies from localStorage.
+const MOVIES_STORAGE_KEY = 'filmLockMovies';
+
 const initialMovies: Movie[] = [
     {
     id: 1,
     title: "THE SMILE MAN",
     posterUrl: "https://placehold.co/400x600.png",
-    category: "hollywood",
+    category: "south-indian",
     releaseDate: "2024-10-11",
     trailerUrl: "https://www.youtube.com/embed/g4D8-4-4_hA", // Placeholder trailer
     isTrending: true,
   }
 ];
 
-// This key will be used to save/load movies from localStorage.
-const MOVIES_STORAGE_KEY = 'filmLockMovies';
-
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Effect to load movies from localStorage on initial client-side render.
-  // This version now guarantees a clean start.
+  // This effect runs once on the client to initialize the state.
+  // It clears any old data from localStorage and sets the initial movie.
   useEffect(() => {
-    // By setting the initial state to an empty array and then saving it,
-    // we effectively clear out any previously stored data.
-    setMovies(initialMovies);
     localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+    setMovies(initialMovies);
     setIsLoaded(true);
   }, []);
 
