@@ -2,24 +2,18 @@
 'use client'
 
 import { useParams } from "next/navigation";
-import Image from "next/image";
 import { Star } from "lucide-react";
 import { MovieDetailsClient } from "./movie-details-client";
 import { useMovies } from "@/providers/movie-provider";
-import { useEffect, useState } from "react";
-import type { Movie } from "@/types";
 
 export default function MovieDetailsPage() {
   const params = useParams();
   const { getMovieById } = useMovies();
   const id = params.id ? parseInt(params.id as string, 10) : NaN;
   
-  // The movie state can be directly derived from the context now.
-  // The useMovies hook will re-render this component when movies are loaded.
   const movie = isNaN(id) ? null : getMovieById(id);
   
   if (movie === undefined) {
-    // This state means the movies from the provider are not yet loaded.
     return (
       <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
         <div>
@@ -30,7 +24,6 @@ export default function MovieDetailsPage() {
   }
 
   if (movie === null) {
-    // This state means movies are loaded, but this specific ID wasn't found.
      return (
         <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
           <div>
@@ -44,18 +37,7 @@ export default function MovieDetailsPage() {
   return (
     <div className="container mx-auto max-w-screen-2xl py-16">
       <div className="flex flex-col gap-8 md:flex-row">
-        <div className="w-full md:w-1/3">
-          <Image
-            src={movie.posterUrl}
-            alt={`Poster for ${movie.title}`}
-            width={500}
-            height={750}
-            className="w-full rounded-lg object-cover"
-            data-ai-hint="movie poster" 
-            unoptimized={movie.posterUrl.startsWith('blob:')}
-          />
-        </div>
-        <div className="w-full md:w-2/3">
+        <div className="w-full">
           <h1 className="font-headline text-5xl font-bold">{movie.title}</h1>
           <div className="mt-4 flex items-center gap-4">
             <div className="flex items-center gap-1">
