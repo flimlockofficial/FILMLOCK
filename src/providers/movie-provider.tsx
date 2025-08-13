@@ -27,7 +27,7 @@ const initialMovies: Movie[] = [
     {
     id: 1,
     title: "THE SMILE MAN",
-    posterUrl: "https://placehold.co/400x600.png",
+    posterUrl: "/the-smile-man.jpg",
     category: "south-indian",
     releaseDate: "2024-10-11",
     trailerUrl: "https://www.youtube.com/embed/g4D8-4-4_hA", // Placeholder trailer
