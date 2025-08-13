@@ -28,7 +28,6 @@ const initialMovies: Movie[] = [
     title: "THE SMILE MAN",
     category: "south-indian",
     trailerUrl: "https://www.youtube.com/embed/jDO7clVUess",
-    movieUrl: "https://sfl.gl/XtrQl",
     isTrending: true,
     language: "Dual Audio [Hindi-Tamil]",
     year: 2022,
