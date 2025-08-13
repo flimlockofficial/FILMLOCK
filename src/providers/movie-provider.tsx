@@ -26,7 +26,7 @@ const initialMovies: Movie[] = [
     {
     id: 1,
     title: "THE SMILE MAN",
-    posterUrl: "/the-smile-man.jpg",
+    posterUrl: "https://placehold.co/400x600.png",
     category: "south-indian",
     releaseDate: "2024-10-11",
     trailerUrl: "https://www.youtube.com/embed/g4D8-4-4_hA", // Placeholder trailer
@@ -42,15 +42,11 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
     // On initial client load, we check localStorage.
     // If it's empty or doesn't exist, we set it with our initial movies.
     try {
-      const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
-      if (storedMovies) {
-        setMovies(JSON.parse(storedMovies));
-      } else {
-        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
-        setMovies(initialMovies);
-      }
+      // For this version, we will always start fresh, ignoring localStorage to ensure clean state.
+      localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+      setMovies(initialMovies);
     } catch (error) {
-      // If localStorage is unavailable or parsing fails, start with initial movies.
+      // If localStorage is unavailable, start with initial movies.
       console.error("Failed to access localStorage:", error);
       setMovies(initialMovies);
     }
