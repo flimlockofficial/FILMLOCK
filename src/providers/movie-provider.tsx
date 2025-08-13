@@ -27,7 +27,6 @@ const initialMovies: Movie[] = [
     id: 1,
     title: "THE SMILE MAN",
     category: "south-indian",
-    releaseDate: "2024-10-11",
     trailerUrl: "https://www.youtube.com/embed/g4D8-4-4_hA", // Placeholder trailer
     isTrending: true,
   }

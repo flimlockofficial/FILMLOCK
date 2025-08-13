@@ -2,7 +2,6 @@
 'use client'
 
 import { useParams } from "next/navigation";
-import { Star } from "lucide-react";
 import { MovieDetailsClient } from "./movie-details-client";
 import { useMovies } from "@/providers/movie-provider";
 
@@ -42,11 +41,6 @@ export default function MovieDetailsPage() {
           <p className="mt-6 text-lg text-muted-foreground">
             A full description of the movie will be available soon. For now, enjoy this placeholder text about the exciting story, talented cast, and acclaimed director. This film promises to be a cinematic experience you won't want to miss.
           </p>
-          {movie.releaseDate && (
-            <p className="mt-4 text-lg">
-              <strong>Release Date:</strong> {movie.releaseDate}
-            </p>
-          )}
           <MovieDetailsClient movie={movie} />
         </div>
       </div>
