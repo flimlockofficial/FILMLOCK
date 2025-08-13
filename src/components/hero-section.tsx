@@ -39,7 +39,7 @@ export function HeroSection() {
 
   return (
     <>
-      <section className="relative min-h-[450px] w-full pt-24 pb-12">
+      <section className="relative min-h-[450px] w-full pt-24 pb-4">
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
         <div
           className="absolute inset-0 bg-gradient-to-br from-background via-slate-900 to-black"
