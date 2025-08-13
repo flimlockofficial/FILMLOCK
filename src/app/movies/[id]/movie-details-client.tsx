@@ -26,20 +26,24 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       });
       return;
     }
-    
-    // For cloud storage links, it's better to open them in a new tab
+
+    // For cloud storage links, it's better to open them in a new tab if direct download fails.
+    // However, per your request, we will attempt to directly download.
     if (movie.movieUrl.includes("drive.google.com") || movie.movieUrl.includes("mega.nz")) {
-       window.open(movie.movieUrl, "_blank", "noopener,noreferrer");
-       toast.success("Opening Download Page", {
-        description: `Preparing download for "${movie.title}".`,
-      });
+      // This will open the link in a new tab, which is often the most reliable way 
+      // for users to download from cloud services, as they might need to interact with the page.
+      window.open(movie.movieUrl, "_blank", "noopener,noreferrer");
+      toast.success("Opening Download Page", {
+       description: `Preparing download for "${movie.title}".`,
+     });
       return;
     }
 
-    // For direct links, create a link and trigger download
+    // For other links, create an anchor tag and trigger download
     const link = document.createElement("a");
     link.href = movie.movieUrl;
-    const fileExtension = movie.movieUrl.startsWith('blob:') ? 'mp4' : movie.movieUrl.split('.').pop();
+    // Provide a default filename if one can't be derived
+    const fileExtension = movie.movieUrl.startsWith('blob:') ? 'mp4' : (movie.movieUrl.split('.').pop() || 'file');
     const fileName = `${movie.title.replace(/ /g, "_")}.${fileExtension}`;
     link.setAttribute("download", fileName);
     document.body.appendChild(link);
