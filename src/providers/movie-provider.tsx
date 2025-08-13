@@ -39,17 +39,9 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // On initial client load, we check localStorage.
-    // If it's empty or doesn't exist, we set it with our initial movies.
-    try {
-      // For this version, we will always start fresh, ignoring localStorage to ensure clean state.
-      localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
-      setMovies(initialMovies);
-    } catch (error) {
-      // If localStorage is unavailable, start with initial movies.
-      console.error("Failed to access localStorage:", error);
-      setMovies(initialMovies);
-    }
+    // For this version, we will always start fresh, ignoring localStorage to ensure clean state.
+    localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+    setMovies(initialMovies);
     setIsLoaded(true);
   }, []);
   
