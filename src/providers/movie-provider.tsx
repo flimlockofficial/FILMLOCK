@@ -21,7 +21,17 @@ interface MovieContextType {
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
 // All movies will now be added by the user.
-const initialMovies: Movie[] = [];
+const initialMovies: Movie[] = [
+    {
+    id: 1,
+    title: "THE SMILE MAN",
+    posterUrl: "https://placehold.co/400x600.png",
+    category: "hollywood",
+    releaseDate: "2024-10-11",
+    trailerUrl: "https://www.youtube.com/embed/g4D8-4-4_hA", // Placeholder trailer
+    isTrending: true,
+  }
+];
 
 // This key will be used to save/load movies from localStorage.
 const MOVIES_STORAGE_KEY = 'filmLockMovies';

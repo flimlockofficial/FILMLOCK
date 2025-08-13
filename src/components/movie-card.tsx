@@ -22,7 +22,7 @@ export function MovieCard({ movie }: MovieCardProps) {
               width={400}
               height={600}
               className="h-full w-full object-cover transition-transform duration-300 ease-in-out"
-              data-ai-hint="movie poster"
+              data-ai-hint="creepy smile"
               unoptimized={movie.posterUrl.startsWith('blob:')}
             />
           </div>
