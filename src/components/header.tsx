@@ -29,6 +29,15 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+const mobileNavLinks = [
+    { href: "/", label: "Home" },
+    { href: "/movies/south-indian", label: "South Indian" },
+    { href: "/movies/bollywood", label: "Bollywood" },
+    { href: "/movies/hollywood", label: "Hollywood" },
+    { href: "/movies/anime", label: "Anime" },
+    { href: "/contact", label: "Contact" },
+]
+
 export function Header() {
   const pathname = usePathname();
 
@@ -91,7 +100,7 @@ export function Header() {
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-6 pt-8">
-                {navLinks.map((link) => (
+                {mobileNavLinks.map((link) => (
                    <Link
                     key={link.href}
                     href={link.href}
