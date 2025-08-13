@@ -31,7 +31,7 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
     if (movie.movieUrl.includes("drive.google.com") || movie.movieUrl.includes("mega.nz")) {
       window.open(movie.movieUrl, "_blank", "noopener,noreferrer");
       toast.success("Opening Download Page", {
-       description: `Preparing download for "${movie.title}".`,
+       description: `Preparing download for "${movie.title}". Your download will start shortly.`,
      });
       return;
     }
@@ -39,7 +39,6 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
     // For other links, create an anchor tag and trigger download
     const link = document.createElement("a");
     link.href = movie.movieUrl;
-    // Provide a default filename if one can't be derived
     const fileExtension = movie.movieUrl.startsWith('blob:') ? 'mp4' : (movie.movieUrl.split('.').pop() || 'file');
     const fileName = `${movie.title.replace(/ /g, "_")}.${fileExtension}`;
     link.setAttribute("download", fileName);
