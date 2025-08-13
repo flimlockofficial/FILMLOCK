@@ -1,9 +1,8 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo, useEffect } from 'react';
 import type { Movie, MovieCategory } from '@/types';
-import { initialMovies } from '@/lib/mock-data';
 
 interface MovieContextType {
   trendingMovies: Movie[];
@@ -13,12 +12,54 @@ interface MovieContextType {
   animeMovies: Movie[];
   getAllMovies: () => Movie[];
   getMovieById: (id: number) => Movie | undefined;
+  addMovie: (movie: Movie) => void;
+  deleteMovie: (id: number) => void;
+  toggleTrending: (id: number) => void;
 }
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies] = useState<Movie[]>(initialMovies);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedMovies = localStorage.getItem('movies');
+      if (storedMovies) {
+        setMovies(JSON.parse(storedMovies));
+      }
+    } catch (error) {
+      console.error("Failed to load movies from localStorage", error);
+    }
+    setIsInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if (isInitialized) {
+      try {
+        localStorage.setItem('movies', JSON.stringify(movies));
+      } catch (error) {
+        console.error("Failed to save movies to localStorage", error);
+      }
+    }
+  }, [movies, isInitialized]);
+
+  const addMovie = useCallback((movie: Movie) => {
+    setMovies(prevMovies => [movie, ...prevMovies]);
+  }, []);
+
+  const deleteMovie = useCallback((id: number) => {
+    setMovies(prevMovies => prevMovies.filter(movie => movie.id !== id));
+  }, []);
+
+  const toggleTrending = useCallback((id: number) => {
+    setMovies(prevMovies => 
+      prevMovies.map(movie => 
+        movie.id === id ? { ...movie, isTrending: !movie.isTrending } : movie
+      )
+    );
+  }, []);
 
   const getAllMovies = useCallback((): Movie[] => {
     return [...movies].sort((a,b) => b.id - a.id);
@@ -44,17 +85,22 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const hollywoodMovies = useMemo(() => filterMoviesByCategory("hollywood"), [filterMoviesByCategory]);
   const animeMovies = useMemo(() => filterMoviesByCategory("anime"), [filterMoviesByCategory]);
 
+  const value = { 
+      trendingMovies, 
+      newlyReleasedMovies, 
+      bollywoodMovies,
+      hollywoodMovies,
+      animeMovies,
+      getMovieById, 
+      getAllMovies,
+      addMovie,
+      deleteMovie,
+      toggleTrending,
+  };
+
   return (
-    <MovieContext.Provider value={{ 
-        trendingMovies, 
-        newlyReleasedMovies, 
-        bollywoodMovies,
-        hollywoodMovies,
-        animeMovies,
-        getMovieById, 
-        getAllMovies,
-    }}>
-      {children}
+    <MovieContext.Provider value={value}>
+      {isInitialized ? children : null}
     </MovieContext.Provider>
   );
 };

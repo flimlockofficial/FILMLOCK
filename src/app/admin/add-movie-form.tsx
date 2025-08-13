@@ -59,6 +59,7 @@ export function AddMovieForm() {
         posterUrl,
         trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Placeholder
         movieUrl,
+        isTrending: false,
       });
       
       toast.success("Movie added successfully!");
