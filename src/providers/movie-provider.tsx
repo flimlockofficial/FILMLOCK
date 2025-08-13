@@ -27,25 +27,16 @@ const initialMovies: Movie[] = [];
 const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies, setMovies] = useState<Movie[]>(initialMovies);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Effect to load movies from localStorage on initial client-side render.
+  // This version now guarantees a clean start.
   useEffect(() => {
-    try {
-      const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
-      // We only load from storage if it's not the initial empty state,
-      // to avoid re-loading the now-removed default movie.
-      if (storedMovies && storedMovies !== "[]") {
-        setMovies(JSON.parse(storedMovies));
-      } else {
-         setMovies(initialMovies);
-      }
-    } catch (error) {
-      console.error("Failed to parse movies from localStorage", error);
-      // If parsing fails, fall back to initial movies.
-      setMovies(initialMovies);
-    }
+    // By setting the initial state to an empty array and then saving it,
+    // we effectively clear out any previously stored data.
+    setMovies(initialMovies);
+    localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
     setIsLoaded(true);
   }, []);
 
