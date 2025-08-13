@@ -7,14 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Lock } from "lucide-react";
 
 const ADMIN_PASSWORD = "@PRASHANT";
 
 export default function AdminLoginPage() {
     const router = useRouter();
-    const { toast } = useToast();
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
@@ -26,15 +25,12 @@ export default function AdminLoginPage() {
             // For this prototype, sessionStorage is sufficient.
             sessionStorage.setItem("isAdminAuthenticated", "true");
             router.push("/admin");
-            toast({
-                title: "Login Successful",
+            toast.success("Login Successful", {
                 description: "Welcome to the Admin Dashboard.",
             });
         } else {
             setError("Incorrect password. Please try again.");
-            toast({
-                variant: "destructive",
-                title: "Login Failed",
+            toast.error("Login Failed", {
                 description: "The password you entered is incorrect.",
             });
         }

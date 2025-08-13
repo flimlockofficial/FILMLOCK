@@ -1,29 +1,13 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
-import type { Movie } from '@/types';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import type { Movie, MovieCategory } from '@/types';
 
-// Helper function to get data from localStorage
-const getFromLocalStorage = <T>(key: string, defaultValue: T): T => {
-    if (typeof window === 'undefined') return defaultValue;
-    const storedValue = localStorage.getItem(key);
-    if (storedValue) {
-        try {
-            return JSON.parse(storedValue);
-        } catch (error) {
-            console.error(`Error parsing localStorage key "${key}":`, error);
-            return defaultValue;
-        }
-    }
-    return defaultValue;
-};
+// In-memory data store
+let moviesStore: Movie[] = [];
+let trendingStore: number[] = [];
 
-// Helper function to set data in localStorage
-const setInLocalStorage = <T>(key:string, value: T) => {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(key, JSON.stringify(value));
-}
 
 interface MovieContextType {
   trendingMovies: Movie[];
@@ -42,129 +26,66 @@ interface MovieContextType {
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
-  const [newlyReleasedMovies, setNewlyReleasedMovies] = useState<Movie[]>([]);
-  const [bollywoodMovies, setBollywoodMovies] = useState<Movie[]>([]);
-  const [hollywoodMovies, setHollywoodMovies] = useState<Movie[]>([]);
-  const [animeMovies, setAnimeMovies] = useState<Movie[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    // Load state from localStorage only on the client side after the component has mounted
-    setTrendingMovies(getFromLocalStorage('trendingMovies', []));
-    setNewlyReleasedMovies(getFromLocalStorage('newlyReleasedMovies', []));
-    setBollywoodMovies(getFromLocalStorage('bollywoodMovies', []));
-    setHollywoodMovies(getFromLocalStorage('hollywoodMovies', []));
-    setAnimeMovies(getFromLocalStorage('animeMovies', []));
-    setIsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if(isLoaded) setInLocalStorage('trendingMovies', trendingMovies);
-  }, [trendingMovies, isLoaded]);
-
-  useEffect(() => {
-    if(isLoaded) setInLocalStorage('newlyReleasedMovies', newlyReleasedMovies);
-  }, [newlyReleasedMovies, isLoaded]);
-
-   useEffect(() => {
-    if(isLoaded) setInLocalStorage('bollywoodMovies', bollywoodMovies);
-  }, [bollywoodMovies, isLoaded]);
-
-   useEffect(() => {
-    if(isLoaded) setInLocalStorage('hollywoodMovies', hollywoodMovies);
-  }, [hollywoodMovies, isLoaded]);
-
-   useEffect(() => {
-    if(isLoaded) setInLocalStorage('animeMovies', animeMovies);
-  }, [animeMovies, isLoaded]);
+  const [movies, setMovies] = useState<Movie[]>(moviesStore);
+  const [trendingIds, setTrendingIds] = useState<number[]>(trendingStore);
 
   const addMovie = (movie: Movie) => {
-    setNewlyReleasedMovies(prev => [movie, ...prev]);
-    switch (movie.category) {
-        case 'bollywood':
-            setBollywoodMovies(prev => [movie, ...prev]);
-            break;
-        case 'hollywood':
-            setHollywoodMovies(prev => [movie, ...prev]);
-            break;
-        case 'anime':
-            setAnimeMovies(prev => [movie, ...prev]);
-            break;
-        default:
-            break;
-    }
+    const newMovie = { ...movie, id: Date.now() }; // Ensure unique ID
+    const updatedMovies = [newMovie, ...movies];
+    setMovies(updatedMovies);
+    moviesStore = updatedMovies;
   };
   
   const deleteMovie = (id: number) => {
-    setTrendingMovies(prev => prev.filter(m => m.id !== id));
-    setNewlyReleasedMovies(prev => prev.filter(m => m.id !== id));
-    setBollywoodMovies(prev => prev.filter(m => m.id !== id));
-    setHollywoodMovies(prev => prev.filter(m => m.id !== id));
-    setAnimeMovies(prev => prev.filter(m => m.id !== id));
+    const updatedMovies = movies.filter(m => m.id !== id);
+    const updatedTrendingIds = trendingIds.filter(tid => tid !== id);
+    
+    setMovies(updatedMovies);
+    setTrendingIds(updatedTrendingIds);
+
+    moviesStore = updatedMovies;
+    trendingStore = updatedTrendingIds;
   }
   
   const getAllMovies = useCallback((): Movie[] => {
-    const allMovieMap = new Map<number, Movie>();
-    [...bollywoodMovies, ...hollywoodMovies, ...animeMovies, ...newlyReleasedMovies, ...trendingMovies].forEach(movie => {
-        allMovieMap.set(movie.id, movie);
-    });
-    return Array.from(allMovieMap.values()).sort((a,b) => b.id - a.id);
-  }, [newlyReleasedMovies, trendingMovies, bollywoodMovies, hollywoodMovies, animeMovies]);
+    return movies.sort((a,b) => b.id - a.id);
+  }, [movies]);
 
   const getMovieById = useCallback((id: number): Movie | undefined => {
-    const allMovies = getAllMovies();
-    return allMovies.find(movie => movie.id === id);
-  }, [getAllMovies]);
+    return movies.find(movie => movie.id === id);
+  }, [movies]);
   
   const isTrending = (id: number): boolean => {
-    return trendingMovies.some(movie => movie.id === id);
+    return trendingIds.includes(id);
   }
   
-  const restoreMovieToLists = (movie: Movie) => {
-    if (!newlyReleasedMovies.some(m => m.id === movie.id)) {
-        setNewlyReleasedMovies(prev => [movie, ...prev].sort((a,b) => b.id - a.id));
+  const toggleTrendingStatus = (id: number) => {
+    let updatedTrendingIds;
+    if (trendingIds.includes(id)) {
+      updatedTrendingIds = trendingIds.filter(tid => tid !== id);
+    } else {
+      updatedTrendingIds = [id, ...trendingIds];
     }
-    
-    switch (movie.category) {
-        case 'bollywood':
-            if (!bollywoodMovies.some(m => m.id === movie.id)) {
-                setBollywoodMovies(prev => [movie, ...prev].sort((a,b) => b.id - a.id));
-            }
-            break;
-        case 'hollywood':
-             if (!hollywoodMovies.some(m => m.id === movie.id)) {
-                setHollywoodMovies(prev => [movie, ...prev].sort((a,b) => b.id - a.id));
-            }
-            break;
-        case 'anime':
-             if (!animeMovies.some(m => m.id === movie.id)) {
-                setAnimeMovies(prev => [movie, ...prev].sort((a,b) => b.id - a.id));
-            }
-            break;
-        default:
-            break;
-    }
+    setTrendingIds(updatedTrendingIds);
+    trendingStore = updatedTrendingIds;
+  };
+  
+  const trendingMovies = useMemo(() => {
+    return movies.filter(m => trendingIds.includes(m.id)).sort((a, b) => b.id - a.id);
+  }, [movies, trendingIds]);
+
+  const filterMoviesByCategory = (category: MovieCategory) => {
+    return movies.filter(m => m.category === category).sort((a, b) => b.id - a.id);
   }
 
-  const toggleTrendingStatus = (id: number) => {
-    const allMovies = getAllMovies();
-    const movieToMove = allMovies.find(m => m.id === id);
+  const newlyReleasedMovies = useMemo(() => {
+    // Return all movies sorted by ID, limited to a certain number if desired
+    return movies.sort((a, b) => b.id - a.id);
+  }, [movies]);
 
-    if (!movieToMove) return;
-    
-    if (isTrending(id)) {
-      setTrendingMovies(prev => prev.filter(m => m.id !== id));
-      restoreMovieToLists(movieToMove);
-    } else {
-      setNewlyReleasedMovies(prev => prev.filter(m => m.id !== id));
-      setBollywoodMovies(prev => prev.filter(m => m.id !== id));
-      setHollywoodMovies(prev => prev.filter(m => m.id !== id));
-      setAnimeMovies(prev => prev.filter(m => m.id !== id));
-      
-      setTrendingMovies(prev => [movieToMove, ...prev].sort((a,b) => b.id - a.id));
-    }
-  };
+  const bollywoodMovies = useMemo(() => filterMoviesByCategory("bollywood"), [movies]);
+  const hollywoodMovies = useMemo(() => filterMoviesByCategory("hollywood"), [movies]);
+  const animeMovies = useMemo(() => filterMoviesByCategory("anime"), [movies]);
 
   return (
     <MovieContext.Provider value={{ 
@@ -188,9 +109,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 export const useMovies = () => {
   const context = useContext(MovieContext);
   if (context === undefined) {
-    if (typeof window !== 'undefined') {
-        throw new Error('useMovies must be used within a MovieProvider');
-    }
+    throw new Error('useMovies must be used within a MovieProvider');
   }
-  return context as MovieContextType;
+  return context;
 };

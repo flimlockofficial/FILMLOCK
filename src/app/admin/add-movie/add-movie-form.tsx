@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import Image from "next/image";
 import { Upload, Film } from "lucide-react";
 import { useMovies } from "@/providers/movie-provider";
@@ -34,7 +34,6 @@ const formSchema = z.object({
 });
 
 export function AddMovieForm() {
-  const { toast } = useToast();
   const [posterPreview, setPosterPreview] = useState<string | null>(null);
   const [movieFileName, setMovieFileName] = useState<string | null>(null);
   const { addMovie } = useMovies();
@@ -56,17 +55,16 @@ export function AddMovieForm() {
        const movieFileUrl = URL.createObjectURL(movieFile);
 
        addMovie({
-        id: Date.now(), // Use timestamp for a more unique ID
+        id: Date.now(),
         title: values.title,
         posterUrl: posterPreview,
         category: values.category as MovieCategory,
         releaseDate: values.releaseDate,
         trailerUrl: values.trailerUrl || "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        movieUrl: movieFileUrl, // Save the blob URL
+        movieUrl: movieFileUrl,
        });
 
-       toast({
-         title: "Movie Added!",
+       toast.success("Movie Added!", {
          description: `${values.title} has been successfully added.`,
        });
        form.reset();
@@ -79,9 +77,7 @@ export function AddMovieForm() {
        if (movieInput) movieInput.value = '';
 
     } else {
-        toast({
-            variant: "destructive",
-            title: "Error",
+        toast.error("Error", {
             description: "Please upload both a poster image and a movie file.",
         })
     }

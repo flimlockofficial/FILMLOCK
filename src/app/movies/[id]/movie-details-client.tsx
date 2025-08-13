@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Download, Play, HelpCircle } from "lucide-react";
 import type { Movie } from "@/types";
 
@@ -18,13 +18,10 @@ interface MovieDetailsClientProps {
 }
 
 export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
-  const { toast } = useToast();
 
   const handleDownload = () => {
     if (!movie.movieUrl) {
-      toast({
-        variant: "destructive",
-        title: "Download Unavailable",
+      toast.error("Download Unavailable", {
         description: "The movie file is not available for download.",
       });
       return;
@@ -40,14 +37,11 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
     document.body.appendChild(link);
     link.click();
     
-    toast({
-        title: "Download Started",
+    toast.success("Download Started", {
         description: `Downloading "${movie.title}".`,
     });
 
     link.parentNode?.removeChild(link);
-    // Note: We don't revoke the blob URL here because it's stored in the movie provider state.
-    // In a real app with a backend, this would be a direct link to a storage bucket.
   };
 
   return (

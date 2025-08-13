@@ -3,7 +3,7 @@ import './globals.css';
 import { cn } from "@/lib/utils";
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { MovieProvider } from '@/providers/movie-provider';
 
 export const metadata: Metadata = {
