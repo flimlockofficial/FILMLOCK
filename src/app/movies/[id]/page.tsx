@@ -58,8 +58,7 @@ export default function MovieDetailsPage() {
             width={500}
             height={750}
             className="w-full rounded-lg object-cover"
-            data-ai-hint="movie poster"
-            crossOrigin="anonymous" 
+            data-ai-hint="movie poster" 
           />
         </div>
         <div className="w-full md:w-2/3">
