@@ -39,14 +39,6 @@ export default function MovieDetailsPage() {
       <div className="flex flex-col gap-8 md:flex-row">
         <div className="w-full">
           <h1 className="font-headline text-5xl font-bold">{movie.title}</h1>
-          <div className="mt-4 flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-              ))}
-            </div>
-            <span className="text-muted-foreground">5.0 (1 Review)</span>
-          </div>
           <p className="mt-6 text-lg text-muted-foreground">
             A full description of the movie will be available soon. For now, enjoy this placeholder text about the exciting story, talented cast, and acclaimed director. This film promises to be a cinematic experience you won't want to miss.
           </p>
