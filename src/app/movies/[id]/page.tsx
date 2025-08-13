@@ -68,12 +68,9 @@ export default function MovieDetailsPage() {
                 <DetailItem label="Full Name" value={movie.title} />
                 <DetailItem label="Language" value={movie.language} />
                 <DetailItem label="Released Year" value={movie.year} />
-                <DetailItem label="Size" value={movie.size} />
                 <DetailItem label="Quality" value={movie.quality} />
-                <DetailItem label="Source" value={movie.source} />
                 <DetailItem label="Genres" value={movie.genres} />
                 <DetailItem label="Cast" value={movie.cast} />
-                <DetailItem label="Format" value={movie.format} />
                 <DetailItem label="Subtitle" value={movie.subtitle} />
               </div>
             </div>

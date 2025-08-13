@@ -10,12 +10,9 @@ export interface Movie {
   isTrending?: boolean;
   language?: string;
   year?: number;
-  size?: string;
   quality?: string;
-  source?: string;
   genres?: string[];
   cast?: string[];
-  format?: string;
   subtitle?: string;
   storyline?: string;
 }

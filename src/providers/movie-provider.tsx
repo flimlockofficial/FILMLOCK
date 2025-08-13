@@ -31,12 +31,9 @@ const initialMovies: Movie[] = [
     isTrending: true,
     language: "Dual Audio [Hindi-Tamil]",
     year: 2022,
-    size: "400MB | 660MB | 1GB | 2.5GB | 5.3GB",
     quality: "480p | 720p | 1080p",
-    source: "WEB-DL",
     genres: ["Crime", "Thriller"],
     cast: ["Sarath Kumar", "Sija Rose", "Iniya"],
-    format: "MKV",
     subtitle: "English",
     storyline: "A Cop with Alzheimer’s disease, set to solve the case of a serial killer on the run,before he loses his memory",
   }
@@ -52,7 +49,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
     if (storedMovies) {
         // A simple check to see if the stored data has the new fields. If not, we reset.
         const parsedMovies = JSON.parse(storedMovies);
-        if (parsedMovies.length > 0 && 'storyline' in parsedMovies[0]) {
+        if (parsedMovies.length > 0 && 'storyline' in parsedMovies[0] && !('size' in parsedMovies[0])) {
             setMovies(parsedMovies);
         } else {
             localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
