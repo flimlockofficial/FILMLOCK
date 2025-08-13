@@ -31,6 +31,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       console.error("Failed to load movies from localStorage", error);
+      // Initialize with empty array if storage fails
+      setMovies([]);
     }
     setIsInitialized(true);
   }, []);
@@ -98,9 +100,13 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
       toggleTrending,
   };
 
+  if (!isInitialized) {
+    return null;
+  }
+
   return (
     <MovieContext.Provider value={value}>
-      {isInitialized ? children : null}
+      {children}
     </MovieContext.Provider>
   );
 };

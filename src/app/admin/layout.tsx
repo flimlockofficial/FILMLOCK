@@ -8,27 +8,24 @@ import { Button } from '@/components/ui/button';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    const authStatus = sessionStorage.getItem('isAdminAuthenticated') === 'true';
+    setIsAuthenticated(authStatus);
+    if (!authStatus) {
+      router.push('/admin/login');
+    }
+  }, [router]);
 
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem('isAdminAuthenticated');
-    }
+    sessionStorage.removeItem('isAdminAuthenticated');
     router.push('/admin/login');
   };
 
-  if (!isClient) {
+  if (!isClient || !isAuthenticated) {
     return null; 
-  }
-
-  const isAuthenticated = typeof window !== 'undefined' && sessionStorage.getItem('isAdminAuthenticated') === 'true';
-
-  if (!isAuthenticated) {
-     router.push('/admin/login');
-     return null;
   }
   
   return (
