@@ -20,17 +20,7 @@ interface MovieContextType {
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
-const initialMovies: Movie[] = [
-    {
-      id: 1,
-      title: 'WEDNESDAY',
-      category: 'hollywood',
-      posterUrl: 'https://storage.googleapis.com/studiop-private-asset/projects/59oZkOqQ73Wp2e8ud2tM/assets/D2A2G1M28F8s1k689t9G/wednesday-poster.jpg',
-      trailerUrl: "https://www.youtube.com/embed/Q73gUY_hdEk",
-      movieUrl: "",
-      isTrending: true,
-    }
-];
+const initialMovies: Movie[] = [];
 
 // This key will be used to save/load movies from localStorage.
 const MOVIES_STORAGE_KEY = 'filmLockMovies';
@@ -59,15 +49,16 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 
   // Effect to save movies to localStorage whenever the movies state changes.
   useEffect(() => {
-    // We don't save to localStorage until after the initial load,
-    // and only if there are movies to save.
-    if (isLoaded && movies.length > 0) {
+    // We don't save to localStorage until after the initial load.
+    if (isLoaded) {
       localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
     }
   }, [movies, isLoaded]);
 
   const addMovie = useCallback((movie: Movie) => {
-    setMovies(prevMovies => [movie, ...prevMovies]);
+    // A real app would use a more robust ID generation strategy.
+    const newMovie = { ...movie, id: Date.now() };
+    setMovies(prevMovies => [newMovie, ...prevMovies]);
   }, []);
 
   const deleteMovie = useCallback((id: number) => {
