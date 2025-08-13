@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/hero-section";
-import { TrendingMovies } from "@/components/trending-movies";
 import { NewlyReleased } from "@/components/upcoming-releases";
 import { BollywoodMovies } from "@/components/bollywood-movies";
 import { HollywoodMovies } from "@/components/hollywood-movies";
@@ -9,7 +8,6 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <TrendingMovies />
       <NewlyReleased />
       <BollywoodMovies />
       <HollywoodMovies />
