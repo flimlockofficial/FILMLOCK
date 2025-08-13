@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -21,11 +21,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleLogout = () => {
     sessionStorage.removeItem('isAdminAuthenticated');
+    setIsAuthenticated(false);
     router.push('/admin/login');
   };
 
   if (!isClient || !isAuthenticated) {
-    return null; 
+    return null; // Or a loading spinner
   }
   
   return (

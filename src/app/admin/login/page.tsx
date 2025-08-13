@@ -30,10 +30,9 @@ export default function AdminLoginPage() {
   });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
+    // This check should only happen on the client
     if (data.password === '123') {
-       if (typeof window !== 'undefined') {
-        sessionStorage.setItem('isAdminAuthenticated', 'true');
-      }
+      sessionStorage.setItem('isAdminAuthenticated', 'true');
       toast.success('Login Successful', {
         description: 'Redirecting to the admin dashboard...',
       });
