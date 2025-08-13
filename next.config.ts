@@ -23,12 +23,6 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: 'maker-studio-5f25b.appspot.com',
-        port: '',
-        pathname: '/**',
-      },
     ],
   },
 };
