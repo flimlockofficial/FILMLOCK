@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/contact", label: "Contact" },
+  { href: "/admin", label: "Admin" },
 ];
 
 export function Header() {

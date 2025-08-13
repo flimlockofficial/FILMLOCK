@@ -1,10 +1,9 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo, useEffect } from 'react';
 import type { Movie, MovieCategory } from '@/types';
-import { initialMovies, initialTrendingIds } from '@/lib/mock-data';
-
+import { initialMovies } from '@/lib/mock-data';
 
 interface MovieContextType {
   trendingMovies: Movie[];
@@ -14,16 +13,57 @@ interface MovieContextType {
   animeMovies: Movie[];
   getAllMovies: () => Movie[];
   getMovieById: (id: number) => Movie | undefined;
+  addMovie: (movie: Movie) => void;
+  deleteMovie: (id: number) => void;
+  toggleTrending: (id: number) => void;
 }
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies] = useState<Movie[]>(initialMovies);
-  const [trendingIds] = useState<number[]>(initialTrendingIds);
+  const [movies, setMovies] = useState<Movie[]>(initialMovies);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedMovies = localStorage.getItem('movies');
+      if (storedMovies) {
+        setMovies(JSON.parse(storedMovies));
+      }
+    } catch (error) {
+      console.error("Failed to parse movies from localStorage", error);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      try {
+        localStorage.setItem('movies', JSON.stringify(movies));
+      } catch (error) {
+        console.error("Failed to save movies to localStorage", error);
+      }
+    }
+  }, [movies, isLoaded]);
+
+  const addMovie = useCallback((movie: Movie) => {
+    setMovies(prev => [...prev, movie]);
+  }, []);
+
+  const deleteMovie = useCallback((id: number) => {
+    setMovies(prev => prev.filter(movie => movie.id !== id));
+  }, []);
+
+  const toggleTrending = useCallback((id: number) => {
+    setMovies(prev =>
+      prev.map(movie =>
+        movie.id === id ? { ...movie, isTrending: !movie.isTrending } : movie
+      )
+    );
+  }, []);
 
   const getAllMovies = useCallback((): Movie[] => {
-    return movies.sort((a,b) => b.id - a.id);
+    return [...movies].sort((a,b) => b.id - a.id);
   }, [movies]);
 
   const getMovieById = useCallback((id: number): Movie | undefined => {
@@ -31,15 +71,14 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   }, [movies]);
   
   const trendingMovies = useMemo(() => {
-    return movies.filter(m => trendingIds.includes(m.id)).sort((a, b) => b.id - a.id);
-  }, [movies, trendingIds]);
+    return movies.filter(m => m.isTrending).sort((a, b) => b.id - a.id);
+  }, [movies]);
 
   const filterMoviesByCategory = useCallback((category: MovieCategory) => {
     return movies.filter(m => m.category === category).sort((a, b) => b.id - a.id);
   }, [movies]);
 
   const newlyReleasedMovies = useMemo(() => {
-    // Return all movies sorted by ID
     return [...movies].sort((a, b) => b.id - a.id);
   }, [movies]);
 
@@ -55,7 +94,10 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
         hollywoodMovies,
         animeMovies,
         getMovieById, 
-        getAllMovies, 
+        getAllMovies,
+        addMovie,
+        deleteMovie,
+        toggleTrending,
     }}>
       {children}
     </MovieContext.Provider>

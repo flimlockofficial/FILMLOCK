@@ -1,3 +1,4 @@
+
 export type MovieCategory = "bollywood" | "hollywood" | "anime";
 
 export interface Movie {
@@ -8,4 +9,5 @@ export interface Movie {
   trailerUrl?: string;
   category?: MovieCategory;
   movieUrl?: string;
+  isTrending?: boolean;
 }
