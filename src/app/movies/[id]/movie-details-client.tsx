@@ -27,11 +27,8 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       return;
     }
 
-    // For cloud storage links, it's better to open them in a new tab if direct download fails.
-    // However, per your request, we will attempt to directly download.
+    // For cloud storage links, it's better to open them in a new tab.
     if (movie.movieUrl.includes("drive.google.com") || movie.movieUrl.includes("mega.nz")) {
-      // This will open the link in a new tab, which is often the most reliable way 
-      // for users to download from cloud services, as they might need to interact with the page.
       window.open(movie.movieUrl, "_blank", "noopener,noreferrer");
       toast.success("Opening Download Page", {
        description: `Preparing download for "${movie.title}".`,
