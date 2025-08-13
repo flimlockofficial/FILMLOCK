@@ -54,7 +54,12 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
         </DialogContent>
       </Dialog>
         {movie.movieUrl ? (
-            <Link href={`/download/${movie.id}`} className={cn(buttonVariants())}>
+            <Link 
+              href={movie.movieUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={cn(buttonVariants())}
+            >
                 <Download className="mr-2 h-5 w-5" />
                 Download Movie
             </Link>
