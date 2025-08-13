@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -22,6 +23,7 @@ export function MovieCard({ movie }: MovieCardProps) {
               height={600}
               className="h-full w-full object-cover transition-transform duration-300 ease-in-out"
               data-ai-hint="movie poster"
+              unoptimized={movie.posterUrl.startsWith('blob:')}
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

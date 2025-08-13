@@ -32,8 +32,39 @@ const initialMovies: Movie[] = [
     }
 ];
 
+// This key will be used to save/load movies from localStorage.
+const MOVIES_STORAGE_KEY = 'filmLockMovies';
+
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies, setMovies] = useState<Movie[]>(initialMovies);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Effect to load movies from localStorage on initial client-side render.
+  useEffect(() => {
+    try {
+      const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
+      if (storedMovies) {
+        setMovies(JSON.parse(storedMovies));
+      } else {
+        // If no movies are in storage, initialize with the default.
+        setMovies(initialMovies);
+      }
+    } catch (error) {
+      console.error("Failed to parse movies from localStorage", error);
+      // If parsing fails, fall back to initial movies.
+      setMovies(initialMovies);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Effect to save movies to localStorage whenever the movies state changes.
+  useEffect(() => {
+    // We don't save to localStorage until after the initial load,
+    // and only if there are movies to save.
+    if (isLoaded && movies.length > 0) {
+      localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
+    }
+  }, [movies, isLoaded]);
 
   const addMovie = useCallback((movie: Movie) => {
     setMovies(prevMovies => [movie, ...prevMovies]);
@@ -55,21 +86,25 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
     return [...movies].sort((a,b) => b.id - a.id);
   }, [movies]);
 
-  const getMovieById = useCallback((id: number): Movie | undefined => {
-    return movies.find(movie => movie.id === id);
-  }, [movies]);
+  const getMovieById = useCallback((id: number): Movie | undefined | null => {
+      if (!isLoaded) return undefined; // Undefined means still loading
+      return movies.find(movie => movie.id === id) ?? null; // Null means not found
+  }, [movies, isLoaded]);
   
   const trendingMovies = useMemo(() => {
+    if (!isLoaded) return [];
     return movies.filter(m => m.isTrending).sort((a, b) => b.id - a.id);
-  }, [movies]);
+  }, [movies, isLoaded]);
 
   const filterMoviesByCategory = useCallback((category: MovieCategory) => {
+    if (!isLoaded) return [];
     return movies.filter(m => m.category === category).sort((a, b) => b.id - a.id);
-  }, [movies]);
+  }, [movies, isLoaded]);
 
   const newlyReleasedMovies = useMemo(() => {
+    if (!isLoaded) return [];
     return [...movies].sort((a, b) => b.id - a.id);
-  }, [movies]);
+  }, [movies, isLoaded]);
 
   const bollywoodMovies = useMemo(() => filterMoviesByCategory("bollywood"), [filterMoviesByCategory]);
   const hollywoodMovies = useMemo(() => filterMoviesByCategory("hollywood"), [filterMoviesByCategory]);

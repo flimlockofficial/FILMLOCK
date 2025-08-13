@@ -14,21 +14,12 @@ export default function MovieDetailsPage() {
   const { getMovieById } = useMovies();
   const id = params.id ? parseInt(params.id as string, 10) : NaN;
   
-  const [movie, setMovie] = useState<Movie | null | undefined>(undefined);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-    if (!isNaN(id)) {
-      const foundMovie = getMovieById(id);
-      setMovie(foundMovie || null);
-    } else {
-      setMovie(null); // Explicitly set to null if id is not a number
-    }
-  }, [id, getMovieById]);
+  // The movie state can be directly derived from the context now.
+  // The useMovies hook will re-render this component when movies are loaded.
+  const movie = isNaN(id) ? null : getMovieById(id);
   
-  if (!isClient || movie === undefined) {
-    // Still loading or not on client
+  if (movie === undefined) {
+    // This state means the movies from the provider are not yet loaded.
     return (
       <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
         <div>
@@ -39,7 +30,7 @@ export default function MovieDetailsPage() {
   }
 
   if (movie === null) {
-    // Finished loading, but movie not found
+    // This state means movies are loaded, but this specific ID wasn't found.
      return (
         <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
           <div>
@@ -61,6 +52,7 @@ export default function MovieDetailsPage() {
             height={750}
             className="w-full rounded-lg object-cover"
             data-ai-hint="movie poster" 
+            unoptimized={movie.posterUrl.startsWith('blob:')}
           />
         </div>
         <div className="w-full md:w-2/3">

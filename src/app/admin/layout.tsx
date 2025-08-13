@@ -12,14 +12,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     setIsClient(true);
     const authStatus = sessionStorage.getItem('isAdminAuthenticated') === 'true';
-    setIsAuthenticated(authStatus);
     if (!authStatus) {
       router.push('/admin/login');
+    } else {
+      setIsAuthenticated(true);
     }
   }, [router]);
 
   if (!isClient || !isAuthenticated) {
-    // This will show a blank screen while redirecting.
+    // This will show a blank screen while authenticating/redirecting.
+    // You could replace this with a loading spinner.
     return null; 
   }
   

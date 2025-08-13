@@ -17,6 +17,11 @@ export default function AdminLoginPage() {
     router.push('/admin');
   }, [router]);
 
+  // We only render the UI on the client to avoid hydration errors.
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-14rem)] items-center justify-center">
       <Card className="w-full max-w-sm">
