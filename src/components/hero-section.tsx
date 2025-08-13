@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Search, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
@@ -46,12 +46,6 @@ export function HeroSection() {
           data-ai-hint="dark cinematic background"
         />
         <div className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4">
-          <h1 className="font-body text-5xl font-bold md:text-7xl">
-            Your Next Favorite Film
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Discover, track, and lock in the movies you love. Your ultimate cinematic journey starts here.
-          </p>
           <form className="mt-8 w-full max-w-2xl">
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
               <PopoverAnchor asChild>
@@ -95,6 +89,14 @@ export function HeroSection() {
               </PopoverContent>
             </Popover>
           </form>
+           <div className="mt-8">
+              <Button asChild size="lg" variant="outline" className="border-2">
+                <Link href="https://t.me/flimlock" target="_blank" rel="noopener noreferrer">
+                  <Send className="mr-2 h-5 w-5" />
+                  Join for latest update
+                </Link>
+              </Button>
+            </div>
         </div>
       </section>
       <NewlyReleased />
