@@ -4,7 +4,6 @@
 import { useParams } from "next/navigation";
 import { MovieDetailsClient } from "./movie-details-client";
 import { useMovies } from "@/providers/movie-provider";
-import { Badge } from "@/components/ui/badge";
 
 const DetailItem = ({ label, value }: { label: string, value?: string | string[] | number }) => {
   if (!value) return null;
@@ -65,7 +64,6 @@ export default function MovieDetailsPage() {
             <div className="border-t border-border/40 pt-4">
               <h2 className="mb-2 text-2xl font-semibold text-foreground">Movie Details</h2>
               <div className="space-y-2">
-                <DetailItem label="Full Name" value={movie.title} />
                 <DetailItem label="Language" value={movie.language} />
                 <DetailItem label="Released Year" value={movie.year} />
                 <DetailItem label="Quality" value={movie.quality} />

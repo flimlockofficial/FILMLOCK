@@ -46,7 +46,7 @@ export function HeroSection() {
           data-ai-hint="dark cinematic background"
         />
         <div className="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4">
-          <form className="mt-8 w-full max-w-2xl">
+          <div className="mt-8 w-full max-w-2xl">
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
               <PopoverAnchor asChild>
                 <div className="flex w-full items-center gap-2">
@@ -88,7 +88,7 @@ export function HeroSection() {
                 </div>
               </PopoverContent>
             </Popover>
-          </form>
+          </div>
            <div className="mt-8">
               <Button asChild size="lg" variant="outline" className="border-2">
                 <Link href="https://t.me/flimlock" target="_blank" rel="noopener noreferrer">
