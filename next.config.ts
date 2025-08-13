@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'maker-studio-5f25b.appspot.com',
         port: '',
         pathname: '/**',
