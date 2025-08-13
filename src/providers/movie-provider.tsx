@@ -20,7 +20,6 @@ interface MovieContextType {
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
-// This key will be used to save/load movies from localStorage.
 const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 const initialMovies: Movie[] = [
@@ -39,14 +38,25 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // This effect runs once on the client to initialize the state.
-  // It clears any old data from localStorage and sets the initial movie.
   useEffect(() => {
-    localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
-    setMovies(initialMovies);
+    // On initial client load, we check localStorage.
+    // If it's empty or doesn't exist, we set it with our initial movies.
+    try {
+      const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
+      if (storedMovies) {
+        setMovies(JSON.parse(storedMovies));
+      } else {
+        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+        setMovies(initialMovies);
+      }
+    } catch (error) {
+      // If localStorage is unavailable or parsing fails, start with initial movies.
+      console.error("Failed to access localStorage:", error);
+      setMovies(initialMovies);
+    }
     setIsLoaded(true);
   }, []);
-
+  
   // Effect to save movies to localStorage whenever the movies state changes.
   useEffect(() => {
     // We don't save to localStorage until after the initial load.
@@ -56,7 +66,6 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   }, [movies, isLoaded]);
 
   const addMovie = useCallback((movie: Movie) => {
-    // A real app would use a more robust ID generation strategy.
     const newMovie = { ...movie, id: Date.now() };
     setMovies(prevMovies => [newMovie, ...prevMovies]);
   }, []);
@@ -78,8 +87,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   }, [movies]);
 
   const getMovieById = useCallback((id: number): Movie | undefined | null => {
-      if (!isLoaded) return undefined; // Undefined means still loading
-      return movies.find(movie => movie.id === id) ?? null; // Null means not found
+      if (!isLoaded) return undefined; 
+      return movies.find(movie => movie.id === id) ?? null;
   }, [movies, isLoaded]);
   
   const trendingMovies = useMemo(() => {
@@ -94,6 +103,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 
   const newlyReleasedMovies = useMemo(() => {
     if (!isLoaded) return [];
+    // The newly released should show all movies, sorted by latest first.
     return [...movies].sort((a, b) => b.id - a.id);
   }, [movies, isLoaded]);
 
