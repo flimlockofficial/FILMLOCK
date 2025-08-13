@@ -1,7 +1,7 @@
 
 'use client'
 
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { MovieDetailsClient } from "./movie-details-client";
@@ -14,13 +14,12 @@ export default function MovieDetailsPage() {
   const { getMovieById } = useMovies();
   const id = params.id ? parseInt(params.id as string, 10) : NaN;
   
-  // Use state to hold the movie details to avoid re-computing on every render
-  const [movie, setMovie] = useState<Movie | undefined | null>(undefined);
+  const [movie, setMovie] = useState<Movie | null | undefined>(undefined);
 
   useEffect(() => {
     if (!isNaN(id)) {
       const foundMovie = getMovieById(id);
-      setMovie(foundMovie);
+      setMovie(foundMovie || null);
     } else {
       setMovie(null); // Explicitly set to null if id is not a number
     }

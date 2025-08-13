@@ -3,21 +3,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
 import type { Movie, MovieCategory } from '@/types';
-
-const initialMovies: Movie[] = [
-    { id: 1, title: "Cyber City Chronicles", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
-    { id: 2, title: "Echoes of the Past", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
-    { id: 3, title: "The Last Stand", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
-    { id: 4, title: "Midnight Whispers", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
-    { id: 5, title: "Galactic Odyssey", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
-    { id: 6, title: "Secrets of the Deep", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "hollywood", movieUrl: "#" },
-    { id: 7, title: "Project Phoenix", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "bollywood", movieUrl: "#" },
-    { id: 8, title: "The Gilded Cage", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "bollywood", movieUrl: "#" },
-    { id: 9, title: "Neon Velocity", posterUrl: "https://placehold.co/400x600/D4AF37/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "anime", movieUrl: "#" },
-    { id: 10, title: "Chronos", posterUrl: "https://placehold.co/400x600/A9A9A9/222222.png", trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", category: "anime", movieUrl: "#" },
-];
-
-const initialTrendingIds: number[] = [1, 5, 7, 9];
+import { initialMovies, initialTrendingIds } from '@/lib/mock-data';
 
 
 interface MovieContextType {
@@ -48,18 +34,18 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
     return movies.filter(m => trendingIds.includes(m.id)).sort((a, b) => b.id - a.id);
   }, [movies, trendingIds]);
 
-  const filterMoviesByCategory = (category: MovieCategory) => {
+  const filterMoviesByCategory = useCallback((category: MovieCategory) => {
     return movies.filter(m => m.category === category).sort((a, b) => b.id - a.id);
-  }
+  }, [movies]);
 
   const newlyReleasedMovies = useMemo(() => {
     // Return all movies sorted by ID
-    return movies.sort((a, b) => b.id - a.id);
+    return [...movies].sort((a, b) => b.id - a.id);
   }, [movies]);
 
-  const bollywoodMovies = useMemo(() => filterMoviesByCategory("bollywood"), [movies]);
-  const hollywoodMovies = useMemo(() => filterMoviesByCategory("hollywood"), [movies]);
-  const animeMovies = useMemo(() => filterMoviesByCategory("anime"), [movies]);
+  const bollywoodMovies = useMemo(() => filterMoviesByCategory("bollywood"), [filterMoviesByCategory]);
+  const hollywoodMovies = useMemo(() => filterMoviesByCategory("hollywood"), [filterMoviesByCategory]);
+  const animeMovies = useMemo(() => filterMoviesByCategory("anime"), [filterMoviesByCategory]);
 
   return (
     <MovieContext.Provider value={{ 
