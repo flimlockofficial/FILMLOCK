@@ -15,8 +15,10 @@ export default function MovieDetailsPage() {
   const id = params.id ? parseInt(params.id as string, 10) : NaN;
   
   const [movie, setMovie] = useState<Movie | null | undefined>(undefined);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     if (!isNaN(id)) {
       const foundMovie = getMovieById(id);
       setMovie(foundMovie || null);
@@ -25,8 +27,8 @@ export default function MovieDetailsPage() {
     }
   }, [id, getMovieById]);
   
-  if (movie === undefined) {
-    // Still loading
+  if (!isClient || movie === undefined) {
+    // Still loading or not on client
     return (
       <div className="container mx-auto flex min-h-[calc(100vh-14rem)] max-w-screen-2xl items-center justify-center py-16 text-center">
         <div>

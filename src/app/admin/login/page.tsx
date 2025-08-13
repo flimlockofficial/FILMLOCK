@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,6 +21,12 @@ type LoginFormInputs = z.infer<typeof loginSchema>;
 export default function AdminLoginPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -30,7 +36,6 @@ export default function AdminLoginPage() {
   });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    // This check should only happen on the client
     if (data.password === '123') {
       sessionStorage.setItem('isAdminAuthenticated', 'true');
       toast.success('Login Successful', {
@@ -44,6 +49,10 @@ export default function AdminLoginPage() {
       });
     }
   };
+
+  if (!isClient) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <div className="flex min-h-[calc(100vh-14rem)] items-center justify-center">
