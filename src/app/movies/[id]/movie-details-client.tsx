@@ -55,15 +55,8 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       </Dialog>
       {movie.movieUrl ? (
         <Link
-          href={movie.movieUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={`/download/${movie.id}`}
           className={cn(buttonVariants({ variant: "outline" }))}
-          onClick={() => {
-            toast.success("Opening Download Page", {
-              description: `The page for "${movie.title}" is opening.`,
-            });
-          }}
         >
           <Download className="mr-2 h-5 w-5" />
           Download Movie
