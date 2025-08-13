@@ -20,7 +20,7 @@ interface MovieContextType {
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
-const initialWednesdayMovie: Movie[] = [
+const initialMovies: Movie[] = [
     {
       id: 1,
       title: 'WEDNESDAY',
@@ -32,42 +32,8 @@ const initialWednesdayMovie: Movie[] = [
     }
 ];
 
-const getInitialMovies = (): Movie[] => {
-    if (typeof window === 'undefined') {
-        return initialWednesdayMovie;
-    }
-    try {
-        const storedMovies = localStorage.getItem('movies');
-        if (storedMovies) {
-            const parsedMovies = JSON.parse(storedMovies);
-            if (Array.isArray(parsedMovies) && parsedMovies.length > 0) {
-                return parsedMovies;
-            }
-        }
-    } catch (error) {
-        console.error("Failed to parse movies from localStorage, initializing with default.", error);
-    }
-    return initialWednesdayMovie;
-};
-
-
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies, setMovies] = useState<Movie[]>(getInitialMovies);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (isClient) {
-        try {
-            localStorage.setItem('movies', JSON.stringify(movies));
-        } catch (error) {
-            console.error("Failed to save movies to localStorage", error);
-        }
-    }
-  }, [movies, isClient]);
+  const [movies, setMovies] = useState<Movie[]>(initialMovies);
 
   const addMovie = useCallback((movie: Movie) => {
     setMovies(prevMovies => [movie, ...prevMovies]);
@@ -123,10 +89,6 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
       deleteMovie,
       toggleTrending,
   };
-
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <MovieContext.Provider value={value}>
