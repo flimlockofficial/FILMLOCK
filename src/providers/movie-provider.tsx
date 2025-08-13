@@ -20,24 +20,26 @@ interface MovieContextType {
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
+// All movies will now be added by the user.
 const initialMovies: Movie[] = [];
 
 // This key will be used to save/load movies from localStorage.
 const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movie[]>(initialMovies);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Effect to load movies from localStorage on initial client-side render.
   useEffect(() => {
     try {
       const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
-      if (storedMovies) {
+      // We only load from storage if it's not the initial empty state,
+      // to avoid re-loading the now-removed default movie.
+      if (storedMovies && storedMovies !== "[]") {
         setMovies(JSON.parse(storedMovies));
       } else {
-        // If no movies are in storage, initialize with the default.
-        setMovies(initialMovies);
+         setMovies(initialMovies);
       }
     } catch (error) {
       console.error("Failed to parse movies from localStorage", error);
