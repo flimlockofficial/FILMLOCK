@@ -53,6 +53,17 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
           </div>
         </DialogContent>
       </Dialog>
+        {movie.movieUrl ? (
+            <Link href={`/download/${movie.id}`} className={cn(buttonVariants())}>
+                <Download className="mr-2 h-5 w-5" />
+                Download Movie
+            </Link>
+        ) : (
+            <Button onClick={handleUnavailableDownload}>
+                <Download className="mr-2 h-5 w-5" />
+                Download Movie
+            </Button>
+        )}
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="secondary">
