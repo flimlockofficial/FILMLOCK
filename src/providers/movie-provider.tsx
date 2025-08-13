@@ -29,6 +29,16 @@ const initialMovies: Movie[] = [
     category: "south-indian",
     trailerUrl: "https://www.youtube.com/embed/jDO7clVUess",
     isTrending: true,
+    language: "Dual Audio [Hindi-Tamil]",
+    year: 2022,
+    size: "400MB | 660MB | 1GB | 2.5GB | 5.3GB",
+    quality: "480p | 720p | 1080p",
+    source: "WEB-DL",
+    genres: ["Crime", "Thriller"],
+    cast: ["Sarath Kumar", "Sija Rose", "Iniya"],
+    format: "MKV",
+    subtitle: "English",
+    storyline: "A Cop with Alzheimer’s disease, set to solve the case of a serial killer on the run,before he loses his memory",
   }
 ];
 
@@ -37,15 +47,26 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // For this version, we will always start fresh, ignoring localStorage to ensure clean state.
-    localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
-    setMovies(initialMovies);
+    // For this version, we will always start with a clean state from initialMovies.
+    const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
+    if (storedMovies) {
+        // A simple check to see if the stored data has the new fields. If not, we reset.
+        const parsedMovies = JSON.parse(storedMovies);
+        if (parsedMovies.length > 0 && 'storyline' in parsedMovies[0]) {
+            setMovies(parsedMovies);
+        } else {
+            localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+            setMovies(initialMovies);
+        }
+    } else {
+        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+        setMovies(initialMovies);
+    }
     setIsLoaded(true);
   }, []);
   
   // Effect to save movies to localStorage whenever the movies state changes.
   useEffect(() => {
-    // We don't save to localStorage until after the initial load.
     if (isLoaded) {
       localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
     }

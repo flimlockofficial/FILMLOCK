@@ -4,6 +4,21 @@
 import { useParams } from "next/navigation";
 import { MovieDetailsClient } from "./movie-details-client";
 import { useMovies } from "@/providers/movie-provider";
+import { Badge } from "@/components/ui/badge";
+
+const DetailItem = ({ label, value }: { label: string, value?: string | string[] | number }) => {
+  if (!value) return null;
+
+  const displayValue = Array.isArray(value) ? value.join(', ') : value;
+
+  return (
+    <p>
+      <span className="font-semibold">{label}: </span>
+      {displayValue}
+    </p>
+  );
+};
+
 
 export default function MovieDetailsPage() {
   const params = useParams();
@@ -38,9 +53,32 @@ export default function MovieDetailsPage() {
       <div className="flex flex-col gap-8 md:flex-row">
         <div className="w-full">
           <h1 className="font-headline text-5xl font-bold">{movie.title}</h1>
-          <p className="mt-6 text-lg text-muted-foreground">
-            A full description of the movie will be available soon. For now, enjoy this placeholder text about the exciting story, talented cast, and acclaimed director. This film promises to be a cinematic experience you won't want to miss.
-          </p>
+
+          <div className="mt-6 space-y-4 text-muted-foreground">
+            {movie.storyline && (
+              <div>
+                <h2 className="mb-2 text-2xl font-semibold text-foreground">Storyline</h2>
+                <p className="text-lg">{movie.storyline}</p>
+              </div>
+            )}
+            
+            <div className="border-t border-border/40 pt-4">
+              <h2 className="mb-2 text-2xl font-semibold text-foreground">Movie Details</h2>
+              <div className="space-y-2">
+                <DetailItem label="Full Name" value={movie.title} />
+                <DetailItem label="Language" value={movie.language} />
+                <DetailItem label="Released Year" value={movie.year} />
+                <DetailItem label="Size" value={movie.size} />
+                <DetailItem label="Quality" value={movie.quality} />
+                <DetailItem label="Source" value={movie.source} />
+                <DetailItem label="Genres" value={movie.genres} />
+                <DetailItem label="Cast" value={movie.cast} />
+                <DetailItem label="Format" value={movie.format} />
+                <DetailItem label="Subtitle" value={movie.subtitle} />
+              </div>
+            </div>
+          </div>
+          
           <MovieDetailsClient movie={movie} />
         </div>
       </div>
