@@ -45,21 +45,9 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // For this version, we will always start with a clean state from initialMovies.
-    const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
-    if (storedMovies) {
-        // A simple check to see if the stored data has the new fields. If not, we reset.
-        const parsedMovies = JSON.parse(storedMovies);
-        if (parsedMovies.length > 0 && 'storyline' in parsedMovies[0] && !('size' in parsedMovies[0])) {
-            setMovies(parsedMovies);
-        } else {
-            localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
-            setMovies(initialMovies);
-        }
-    } else {
-        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
-        setMovies(initialMovies);
-    }
+    // Always start with the hardcoded initialMovies to ensure data is fresh.
+    localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+    setMovies(initialMovies);
     setIsLoaded(true);
   }, []);
   
