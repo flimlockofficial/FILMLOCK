@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +12,8 @@ import {
 import { toast } from "sonner";
 import { Download, Play, HelpCircle } from "lucide-react";
 import type { Movie } from "@/types";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface MovieDetailsClientProps {
   movie: Movie;
@@ -19,17 +21,10 @@ interface MovieDetailsClientProps {
 
 export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
 
-  const handleDownload = () => {
-    if (movie.movieUrl) {
-      window.open(movie.movieUrl, "_blank", "noopener,noreferrer");
-      toast.success("Opening Download Page", {
-        description: `Your download for "${movie.title}" will start on the new page.`,
-      });
-    } else {
-      toast.error("Download Unavailable", {
-        description: "The movie file is not available for download.",
-      });
-    }
+  const handleUnavailableDownload = () => {
+    toast.error("Download Unavailable", {
+      description: "The movie file is not available for download.",
+    });
   };
 
   return (
@@ -58,10 +53,27 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
           </div>
         </DialogContent>
       </Dialog>
-      <Button onClick={handleDownload} variant="outline">
-        <Download className="mr-2 h-5 w-5" />
-        Download Movie
-      </Button>
+      {movie.movieUrl ? (
+        <Link
+          href={movie.movieUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(buttonVariants({ variant: "outline" }))}
+          onClick={() => {
+            toast.success("Opening Download Page", {
+              description: `The page for "${movie.title}" is opening.`,
+            });
+          }}
+        >
+          <Download className="mr-2 h-5 w-5" />
+          Download Movie
+        </Link>
+      ) : (
+        <Button onClick={handleUnavailableDownload} variant="outline">
+          <Download className="mr-2 h-5 w-5" />
+          Download Movie
+        </Button>
+      )}
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="secondary">
