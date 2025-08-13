@@ -124,7 +124,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
 export const useMovies = () => {
   const context = useContext(MovieContext);
   if (context === undefined) {
-    throw new Error('useMovies must be used within a MovieProvider');
+    throw new Error('useMovies must be be used within a MovieProvider');
   }
   return context;
 };
