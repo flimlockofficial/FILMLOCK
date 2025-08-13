@@ -15,7 +15,6 @@ export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check for authentication status from sessionStorage
     const authStatus = sessionStorage.getItem('isAdminAuthenticated');
     if (authStatus !== 'true') {
       router.replace('/admin/login');

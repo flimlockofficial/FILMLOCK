@@ -18,8 +18,14 @@ export function TrafficChart() {
     const { getAllMovies } = useMovies();
     const totalMovies = getAllMovies().length;
     const [data, setData] = useState<any[]>([]);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        if (!isClient) return;
         if (totalMovies > 0) {
             setData(generateWeeklyData());
             const interval = setInterval(() => {
@@ -30,7 +36,7 @@ export function TrafficChart() {
         } else {
             setData([]);
         }
-    }, [totalMovies]);
+    }, [totalMovies, isClient]);
 
   return (
     <Card>

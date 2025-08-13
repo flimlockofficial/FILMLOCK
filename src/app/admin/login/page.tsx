@@ -1,7 +1,7 @@
 
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,18 +16,23 @@ export default function AdminLoginPage() {
     const router = useRouter();
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         if (password === ADMIN_PASSWORD) {
             setError("");
-            // In a real app, you'd use a more secure session management system.
-            // For this prototype, sessionStorage is sufficient.
-            sessionStorage.setItem("isAdminAuthenticated", "true");
-            router.push("/admin");
-            toast.success("Login Successful", {
-                description: "Welcome to the Admin Dashboard.",
-            });
+            if (isClient) {
+                sessionStorage.setItem("isAdminAuthenticated", "true");
+                router.push("/admin");
+                toast.success("Login Successful", {
+                    description: "Welcome to the Admin Dashboard.",
+                });
+            }
         } else {
             setError("Incorrect password. Please try again.");
             toast.error("Login Failed", {

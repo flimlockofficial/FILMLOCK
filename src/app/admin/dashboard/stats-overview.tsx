@@ -9,6 +9,7 @@ import { useMovies } from "@/providers/movie-provider";
 export function StatsOverview() {
   const { getAllMovies } = useMovies();
   const totalMovies = getAllMovies().length;
+  const [isClient, setIsClient] = useState(false);
 
   const [traffic, setTraffic] = useState({
     weekly: 0,
@@ -16,20 +17,28 @@ export function StatsOverview() {
   });
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     // In a real application, you would fetch this data from your analytics service.
     // For now, we'll only show stats if there are movies.
     if (totalMovies > 0) {
-      const interval = setInterval(() => {
+      const generateTraffic = () => {
         setTraffic({
           weekly: Math.floor(100 + Math.random() * 500), // More realistic for a new site
           monthly: Math.floor(500 + Math.random() * 2000),
         });
-      }, 5000);
+      };
+      generateTraffic();
+      const interval = setInterval(generateTraffic, 5000);
       return () => clearInterval(interval);
     } else {
       setTraffic({ weekly: 0, monthly: 0 });
     }
-  }, [totalMovies]);
+  }, [totalMovies, isClient]);
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
