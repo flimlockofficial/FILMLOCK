@@ -27,7 +27,7 @@ const initialMovies: Movie[] = [
     id: 1,
     title: "THE SMILE MAN",
     category: "south-indian",
-    trailerUrl: "https://www.youtube.com/embed/g4D8-4-4_hA", // Placeholder trailer
+    trailerUrl: "https://www.youtube.com/embed/jDO7clVUess",
     isTrending: true,
   }
 ];
