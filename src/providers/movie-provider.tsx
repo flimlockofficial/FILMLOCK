@@ -38,23 +38,33 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // This effect runs only once on the client to initialize state from localStorage
     try {
       const storedMovies = localStorage.getItem('movies');
-      // If there are movies in storage, use them. Otherwise, default to the Wednesday movie.
-      if (storedMovies && JSON.parse(storedMovies).length > 0) {
-        setMovies(JSON.parse(storedMovies));
+      if (storedMovies) {
+        const parsedMovies = JSON.parse(storedMovies);
+        // Ensure that if storage is empty, we still fall back to the initial movie.
+        if (Array.isArray(parsedMovies) && parsedMovies.length > 0) {
+          setMovies(parsedMovies);
+        } else {
+          setMovies(initialWednesdayMovie);
+        }
       } else {
+        // If nothing is in storage, initialize with the default movie.
         setMovies(initialWednesdayMovie);
       }
     } catch (error) {
-      console.error("Failed to load movies from localStorage", error);
-      // Initialize with Wednesday movie if storage fails
+      console.error("Failed to load movies from localStorage, initializing with default.", error);
+      // Initialize with Wednesday movie if storage fails or is invalid
       setMovies(initialWednesdayMovie);
     }
+    // Mark as initialized so the app can render and so the sync effect can run.
     setIsInitialized(true);
   }, []);
 
   useEffect(() => {
+    // This effect syncs the 'movies' state back to localStorage whenever it changes.
+    // It only runs after the initial state has been loaded.
     if (isInitialized) {
       try {
         localStorage.setItem('movies', JSON.stringify(movies));
@@ -120,6 +130,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   };
 
   if (!isInitialized) {
+    // Render nothing on the server and on the initial client render
+    // to prevent hydration mismatch. The app will render once isInitialized is true.
     return null;
   }
 
