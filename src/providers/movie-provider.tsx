@@ -20,6 +20,19 @@ interface MovieContextType {
 
 const MovieContext = createContext<MovieContextType | undefined>(undefined);
 
+const initialWednesdayMovie: Movie[] = [
+    {
+      id: 1,
+      title: 'WEDNESDAY',
+      category: 'hollywood',
+      posterUrl: 'https://storage.googleapis.com/studiop-private-asset/projects/59oZkOqQ73Wp2e8ud2tM/assets/D2A2G1M28F8s1k689t9G/wednesday-poster.jpg',
+      trailerUrl: "https://www.youtube.com/embed/Q73gUY_hdEk",
+      movieUrl: "",
+      isTrending: true,
+    }
+];
+
+
 export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -29,11 +42,13 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
       const storedMovies = localStorage.getItem('movies');
       if (storedMovies) {
         setMovies(JSON.parse(storedMovies));
+      } else {
+        setMovies(initialWednesdayMovie);
       }
     } catch (error) {
       console.error("Failed to load movies from localStorage", error);
-      // Initialize with empty array if storage fails
-      setMovies([]);
+      // Initialize with Wednesday movie if storage fails
+      setMovies(initialWednesdayMovie);
     }
     setIsInitialized(true);
   }, []);
