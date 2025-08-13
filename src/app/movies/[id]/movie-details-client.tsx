@@ -27,18 +27,25 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       return;
     }
 
-    // This creates a link to the blob URL created when the file was uploaded.
     const link = document.createElement("a");
     link.href = movie.movieUrl;
-    // Suggest a filename for the download.
-    const fileExtension = movie.movieUrl.startsWith('blob:') ? 'mp4' : movie.movieUrl.split('.').pop();
-    const fileName = `${movie.title.replace(/ /g, "_")}.${fileExtension}`;
-    link.setAttribute("download", fileName);
+
+    // For cloud storage links, it's better to open them in a new tab
+    if (movie.movieUrl.includes("drive.google.com") || movie.movieUrl.includes("mega.nz")) {
+       link.target = "_blank";
+       link.rel = "noopener noreferrer";
+    } else {
+      // For direct links, suggest a filename for the download.
+      const fileExtension = movie.movieUrl.startsWith('blob:') ? 'mp4' : movie.movieUrl.split('.').pop();
+      const fileName = `${movie.title.replace(/ /g, "_")}.${fileExtension}`;
+      link.setAttribute("download", fileName);
+    }
+    
     document.body.appendChild(link);
     link.click();
     
-    toast.success("Download Started", {
-        description: `Downloading "${movie.title}".`,
+    toast.success("Opening Download Page", {
+        description: `Preparing download for "${movie.title}".`,
     });
 
     link.parentNode?.removeChild(link);
