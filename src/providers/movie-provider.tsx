@@ -25,10 +25,18 @@ const MOVIES_STORAGE_KEY = 'filmLockMovies';
 const initialMovies: Movie[] = [
     {
         id: 3,
-        title: "Even Given the Worthless “Appraiser” Class, I’m Actually the Strongest",
+        title: "Even Given the Worthless “Appraiser” Class, I’m Actually the Strongest (Season 1)",
         category: "anime",
         trailerUrl: "https://www.youtube.com/embed/G5BdKi-xkP0",
-        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/06/Download-Even-Given-the-Worthless-Appraiser-Class-Im-Actually-the-Strongest.jpg"
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/06/Download-Even-Given-the-Worthless-Appraiser-Class-Im-Actually-the-Strongest.jpg",
+        language: "Dual Audio {Hindi-Japanese}",
+        year: "2025–",
+        quality: "480p | 720p | 1080p",
+        size: "85MB | 150MB | 230MB | 490MB",
+        genres: ["Animation", "Fantasy"],
+        cast: ["Kana Ichinose", "Yû Serizawa", "Sayumi Suzushiro"],
+        subtitle: "English",
+        storyline: "Born with the job of an “appraiser,” Ein will go on to show the strength of his weak skill!."
     },
     {
         id: 2,

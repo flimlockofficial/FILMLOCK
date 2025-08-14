@@ -29,30 +29,32 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
 
   return (
     <div className="mt-8 flex flex-wrap gap-4">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>
-            <Play className="mr-2 h-5 w-5" />
-            Trailer
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>{movie.title} - Trailer</DialogTitle>
-          </DialogHeader>
-          <div className="aspect-video">
-            <iframe
-              width="100%"
-              height="100%"
-              src={movie.trailerUrl}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {movie.trailerUrl && (
+        <Dialog>
+            <DialogTrigger asChild>
+            <Button>
+                <Play className="mr-2 h-5 w-5" />
+                Trailer
+            </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl">
+            <DialogHeader>
+                <DialogTitle>{movie.title} - Trailer</DialogTitle>
+            </DialogHeader>
+            <div className="aspect-video">
+                <iframe
+                width="100%"
+                height="100%"
+                src={movie.trailerUrl}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                ></iframe>
+            </div>
+            </DialogContent>
+        </Dialog>
+      )}
         {movie.movieUrl ? (
             <Link 
               href={movie.movieUrl} 
@@ -61,7 +63,7 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
               className={cn(buttonVariants())}
             >
                 <Download className="mr-2 h-5 w-5" />
-                Download Movie
+                Download Now
             </Link>
         ) : (
             <Button onClick={handleUnavailableDownload}>
