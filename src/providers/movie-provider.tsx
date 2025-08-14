@@ -27,7 +27,8 @@ const initialMovies: Movie[] = [
         id: 4,
         title: "M3GAN 2.0",
         category: "hollywood",
-        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/M3GAN-2-0-2025-UNRATED-Hindi-English-Movie.jpg"
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/M3GAN-2-0-2025-UNRATED-Hindi-English-Movie.jpg",
+        trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
         id: 3,
