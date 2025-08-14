@@ -27,6 +27,13 @@ const initialMovies: Movie[] = [
         id: 2,
         title: "Tehran",
         category: "bollywood",
+        language: "Hindi",
+        year: 2025,
+        quality: "1080p",
+        genres: ["Action", "Thriller"],
+        cast: ["John Abraham", "Manushi Chhillar", "Hadi Khanjanpour"],
+        subtitle: "English",
+        storyline: "After a 2012 Delhi bombing, officer RK’s Tehran mission turns deadly when Iran targets him and India abandons him in his quest to expose the truth.",
     },
     {
     id: 1,
