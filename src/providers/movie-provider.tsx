@@ -24,6 +24,11 @@ const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 const initialMovies: Movie[] = [
     {
+        id: 4,
+        title: "M3GAN 2.0",
+        category: "hollywood",
+    },
+    {
         id: 3,
         title: "Even Given the Worthless “Appraiser” Class, I’m Actually the Strongest (Season 1)",
         category: "anime",
