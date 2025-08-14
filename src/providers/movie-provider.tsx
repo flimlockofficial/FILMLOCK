@@ -48,15 +48,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // This logic ensures that the app always starts with fresh data from the code,
     // preventing issues with outdated data in localStorage.
-    const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
     const dataToLoad = initialMovies;
-    
-    // We update localStorage only if it's different from our initial data.
-    // This avoids unnecessary writes.
-    if (JSON.stringify(dataToLoad) !== storedMovies) {
-      localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(dataToLoad));
-    }
-
+    localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(dataToLoad));
     setMovies(dataToLoad);
     setIsLoaded(true);
   }, []);
@@ -64,7 +57,12 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   // Effect to save movies to localStorage whenever the movies state changes.
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
+      const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
+      // Only write to localStorage if the state is different from what's stored
+      // This is a safety check but the main logic is now to load fresh on start
+      if (storedMovies !== JSON.stringify(movies)) {
+        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
+      }
     }
   }, [movies, isLoaded]);
 
