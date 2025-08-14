@@ -8,18 +8,16 @@ import Autoplay from "embla-carousel-autoplay";
 import React from "react";
 
 export function HomePageMovies() {
-    const { newlyReleasedMovies, hollywoodMovies, bollywoodMovies, animeMovies, southIndianMovies } = useMovies();
-    const autoplayPlugin = React.useRef(
-      Autoplay({ delay: 2000, stopOnInteraction: true })
-    );
+    const { hollywoodMovies, bollywoodMovies, animeMovies, southIndianMovies } = useMovies();
+    
+    const AutoplayPlugin = () => Autoplay({ delay: 2000, stopOnInteraction: true });
 
   return (
     <div className="container mx-auto max-w-screen-2xl py-16 space-y-16">
-      {newlyReleasedMovies.length === 0 && 
-        hollywoodMovies.length === 0 && 
+      {(hollywoodMovies.length === 0 && 
         bollywoodMovies.length === 0 && 
         animeMovies.length === 0 && 
-        southIndianMovies.length === 0 && (
+        southIndianMovies.length === 0) && (
         <div className="text-center py-16 text-muted-foreground col-span-full">
             <p>No movies have been added yet.</p>
         </div>
@@ -29,9 +27,7 @@ export function HomePageMovies() {
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">Hollywood</h2>
           <Carousel
-            plugins={[autoplayPlugin.current]}
-            onMouseEnter={autoplayPlugin.current.stop}
-            onMouseLeave={autoplayPlugin.current.reset}
+            plugins={[AutoplayPlugin()]}
             opts={{
               align: "start",
               loop: true,
@@ -53,9 +49,7 @@ export function HomePageMovies() {
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">Bollywood</h2>
            <Carousel
-            plugins={[autoplayPlugin.current]}
-            onMouseEnter={autoplayPlugin.current.stop}
-            onMouseLeave={autoplayPlugin.current.reset}
+            plugins={[AutoplayPlugin()]}
             opts={{
               align: "start",
               loop: true,
@@ -77,9 +71,7 @@ export function HomePageMovies() {
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">Anime</h2>
            <Carousel
-            plugins={[autoplayPlugin.current]}
-            onMouseEnter={autoplayPlugin.current.stop}
-            onMouseLeave={autoplayPlugin.current.reset}
+            plugins={[AutoplayPlugin()]}
             opts={{
               align: "start",
               loop: true,
@@ -101,9 +93,7 @@ export function HomePageMovies() {
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">South Indian Hindi Dubbed</h2>
            <Carousel
-            plugins={[autoplayPlugin.current]}
-            onMouseEnter={autoplayPlugin.current.stop}
-            onMouseLeave={autoplayPlugin.current.reset}
+            plugins={[AutoplayPlugin()]}
             opts={{
               align: "start",
               loop: true,

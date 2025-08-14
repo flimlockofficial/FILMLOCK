@@ -9,9 +9,8 @@ import React from "react";
 
 export function HollywoodMovies() {
   const { hollywoodMovies } = useMovies();
-  const autoplayPlugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
-  );
+  
+  const AutoplayPlugin = () => Autoplay({ delay: 2000, stopOnInteraction: true });
 
   if (hollywoodMovies.length === 0) return (
      <div className="text-center py-16 text-muted-foreground col-span-full">
@@ -23,9 +22,7 @@ export function HollywoodMovies() {
     <section>
       <h2 className="mb-8 font-headline text-4xl font-bold">Hollywood</h2>
       <Carousel
-        plugins={[autoplayPlugin.current]}
-        onMouseEnter={autoplayPlugin.current.stop}
-        onMouseLeave={autoplayPlugin.current.reset}
+        plugins={[AutoplayPlugin()]}
         opts={{
           align: "start",
           loop: true,
