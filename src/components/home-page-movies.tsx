@@ -1,16 +1,66 @@
 
-import { HollywoodMovies } from "./hollywood-movies";
-import { BollywoodMovies } from "./bollywood-movies";
-import { AnimeMovies } from "./anime-movies";
-import { SouthIndianMovies } from "./south-indian-movies";
+"use client";
+
+import { MovieCard } from "./movie-card";
+import { useMovies } from "@/providers/movie-provider";
 
 export function HomePageMovies() {
+    const { newlyReleasedMovies, hollywoodMovies, bollywoodMovies, animeMovies, southIndianMovies } = useMovies();
+
   return (
     <div className="container mx-auto max-w-screen-2xl py-16 space-y-16">
-      <HollywoodMovies />
-      <BollywoodMovies />
-      <AnimeMovies />
-      <SouthIndianMovies />
+      <section>
+        <h2 className="mb-8 font-headline text-4xl font-bold">Newly Released</h2>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {newlyReleasedMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+            ))}
+        </div>
+      </section>
+
+      {hollywoodMovies.length > 0 && (
+        <section>
+          <h2 className="mb-8 font-headline text-4xl font-bold">Hollywood</h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {hollywoodMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </section>
+      )}
+      
+      {bollywoodMovies.length > 0 && (
+        <section>
+          <h2 className="mb-8 font-headline text-4xl font-bold">Bollywood</h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {bollywoodMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {animeMovies.length > 0 && (
+        <section>
+          <h2 className="mb-8 font-headline text-4xl font-bold">Anime</h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {animeMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {southIndianMovies.length > 0 && (
+        <section>
+          <h2 className="mb-8 font-headline text-4xl font-bold">South Indian Hindi Dubbed</h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {southIndianMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
