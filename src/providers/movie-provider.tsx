@@ -27,6 +27,7 @@ const initialMovies: Movie[] = [
         id: 3,
         title: "Even Given the Worthless “Appraiser” Class, I’m Actually the Strongest",
         category: "anime",
+        trailerUrl: "https://www.youtube.com/embed/G5BdKi-xkP0",
     },
     {
         id: 2,
