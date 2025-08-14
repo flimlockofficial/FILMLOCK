@@ -24,6 +24,11 @@ const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 const initialMovies: Movie[] = [
     {
+        id: 5,
+        title: "Young Millionaires",
+        category: "hollywood",
+    },
+    {
         id: 4,
         title: "M3GAN 2.0",
         category: "hollywood",
