@@ -3,9 +3,15 @@
 
 import { MovieCard } from "./movie-card";
 import { useMovies } from "@/providers/movie-provider";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from "react";
 
 export function HollywoodMovies() {
   const { hollywoodMovies } = useMovies();
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
 
   if (hollywoodMovies.length === 0) return (
      <div className="text-center py-16 text-muted-foreground col-span-full">
@@ -16,13 +22,24 @@ export function HollywoodMovies() {
   return (
     <section>
       <h2 className="mb-8 font-headline text-4xl font-bold">Hollywood</h2>
-      <div className="embla__container flex space-x-4 pb-4 -ml-4 pl-4">
-        {hollywoodMovies.map((movie) => (
-          <div key={movie.id} className="min-w-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
-            <MovieCard movie={movie} />
-          </div>
-        ))}
-      </div>
+      <Carousel
+        plugins={[autoplayPlugin.current]}
+        onMouseEnter={autoplayPlugin.current.stop}
+        onMouseLeave={autoplayPlugin.current.reset}
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-4">
+          {hollywoodMovies.map((movie) => (
+            <CarouselItem key={movie.id} className="min-w-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 pl-4">
+              <MovieCard movie={movie} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
     </section>
   );
 }
