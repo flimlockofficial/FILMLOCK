@@ -28,7 +28,15 @@ const initialMovies: Movie[] = [
         title: "M3GAN 2.0",
         category: "hollywood",
         posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/M3GAN-2-0-2025-UNRATED-Hindi-English-Movie.jpg",
-        trailerUrl: "https://www.youtube.com/embed/IYLHdEzsk1s"
+        trailerUrl: "https://www.youtube.com/embed/IYLHdEzsk1s",
+        language: "Dual Audio [Hindi-English]",
+        year: 2025,
+        size: "480MB | 840MB | 1.2GB | 2.1GB | 2.8GB | 8.1GB",
+        quality: "480p | 720p | 1080p WEB-DL",
+        genres: ["Action", "Horror", "Sci-Fi"],
+        cast: ["Allison Williams", "Violet McGraw", "Amie Donald"],
+        subtitle: "English",
+        storyline: "Two years after M3GAN’s rampage, her creator, Gemma, resorts to resurrecting her infamous creation in order to take down Amelia, the military-grade weapon who was built by a defense contractor who stole M3GAN’s underlying tech."
     },
     {
         id: 3,
@@ -105,7 +113,7 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
           localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
         }
       } catch (error) {
-          console.error("Failed to update movies in localStorage", error);
+          console.error("Update movies in localStorage failed", error);
       }
     }
   }, [movies, isLoaded]);
