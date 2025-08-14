@@ -27,6 +27,7 @@ const initialMovies: Movie[] = [
         id: 6,
         title: "Jurassic World: Rebirth",
         category: "hollywood",
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/07/Jurassic-World-Rebirth-2025.jpg"
     },
     {
         id: 5,
