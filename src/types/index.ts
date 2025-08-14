@@ -15,5 +15,4 @@ export interface Movie {
   cast?: string[];
   subtitle?: string;
   storyline?: string;
-  posterUrl?: string;
 }

@@ -4,7 +4,6 @@
 import { useParams } from "next/navigation";
 import { MovieDetailsClient } from "./movie-details-client";
 import { useMovies } from "@/providers/movie-provider";
-import Image from 'next/image';
 
 const DetailItem = ({ label, value }: { label: string, value?: string | string[] | number }) => {
   if (!value) return null;
@@ -51,19 +50,6 @@ export default function MovieDetailsPage() {
   return (
     <div className="container mx-auto max-w-screen-2xl py-16">
       <div className="flex flex-col gap-8 md:flex-row md:gap-12">
-        {movie.posterUrl && (
-          <div className="w-full md:w-1/3 flex-shrink-0">
-            <div className="aspect-[2/3] relative w-full overflow-hidden rounded-lg shadow-2xl">
-              <Image
-                src={movie.posterUrl}
-                alt={movie.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-            </div>
-          </div>
-        )}
         <div className="w-full">
           <h1 className="font-headline text-5xl font-bold">{movie.title}</h1>
 
