@@ -42,7 +42,7 @@ const initialMovies: Movie[] = [
         storyline: "After a 2012 Delhi bombing, officer RK’s Tehran mission turns deadly when Iran targets him and India abandons him in his quest to expose the truth.",
         trailerUrl: "https://www.youtube.com/embed/mzr_F0NJMRs",
         movieUrl: "https://linkpays.in/THERAN",
-        posterUrl: "https://storage.googleapis.com/monorepo-prod.appspot.com/user_code_samples/a0b4d2e1-7e3c-4e8a-a664-90b5d91df13f.jpg"
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/Tehran-2025.jpg"
     },
     {
     id: 1,
