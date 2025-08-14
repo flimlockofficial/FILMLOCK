@@ -28,6 +28,7 @@ const initialMovies: Movie[] = [
         title: "Even Given the Worthless “Appraiser” Class, I’m Actually the Strongest",
         category: "anime",
         trailerUrl: "https://www.youtube.com/embed/G5BdKi-xkP0",
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/06/Download-Even-Given-the-Worthless-Appraiser-Class-Im-Actually-the-Strongest.jpg"
     },
     {
         id: 2,
