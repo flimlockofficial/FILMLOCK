@@ -36,6 +36,7 @@ const initialMovies: Movie[] = [
         subtitle: "MSubs",
         storyline: "Friday the 13th in Marseille, childhood friends Samia, Léo, David and Jess hit the lottery jackpot. But at 17, it’s impossible to cash the ticket… the first problem of a long series, because hitting the jackpot at this age opens the door to an avalanche of problems. Because you can’t be serious when you’re 17 with 17 million!!",
         posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/Young-Millionaires-WEB-Series.jpg",
+        trailerUrl: "https://www.youtube.com/embed/8JZcNEZQWQI",
     },
     {
         id: 4,
