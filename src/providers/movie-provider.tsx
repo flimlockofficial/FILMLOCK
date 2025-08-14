@@ -59,6 +59,7 @@ const initialMovies: Movie[] = [
     cast: ["Sarath Kumar", "Sija Rose", "Iniya"],
     subtitle: "English",
     storyline: "A Cop with Alzheimer’s disease, set to solve the case of a serial killer on the run,before he loses his memory",
+    posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/The-Smile-Man-2024.jpg"
   }
 ];
 
