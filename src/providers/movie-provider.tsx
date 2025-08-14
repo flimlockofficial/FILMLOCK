@@ -41,6 +41,7 @@ const initialMovies: Movie[] = [
         subtitle: "English",
         storyline: "After a 2012 Delhi bombing, officer RK’s Tehran mission turns deadly when Iran targets him and India abandons him in his quest to expose the truth.",
         trailerUrl: "https://www.youtube.com/embed/mzr_F0NJMRs",
+        movieUrl: "https://linkpays.in/THERAN",
     },
     {
     id: 1,
