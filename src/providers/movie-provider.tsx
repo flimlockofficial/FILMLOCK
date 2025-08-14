@@ -24,6 +24,11 @@ const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 const initialMovies: Movie[] = [
     {
+        id: 6,
+        title: "Jurassic World: Rebirth",
+        category: "hollywood",
+    },
+    {
         id: 5,
         title: "Young Millionaires",
         category: "hollywood",
