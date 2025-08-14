@@ -27,7 +27,15 @@ const initialMovies: Movie[] = [
         id: 6,
         title: "Jurassic World: Rebirth",
         category: "hollywood",
-        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/07/Jurassic-World-Rebirth-2025.jpg"
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/07/Jurassic-World-Rebirth-2025.jpg",
+        language: "Dual Audio [Hindi-English]",
+        year: 2025,
+        size: "520MB | 940MB | 1.3GB | 2.4GB | 3GB | 7.4GB | 10.5GB | 16GB",
+        quality: "480p | 720p | 1080p | 2160p WEB-DL",
+        genres: ["Action", "Adventure", "Sci-Fi"],
+        cast: ["Scarlett Johansson", "Mahershala Ali", "Jonathan Bailey"],
+        subtitle: "English",
+        storyline: "Five years post-Jurassic World: Dominion (2022), an expedition braves isolated equatorial regions to extract DNA from three massive prehistoric creatures for a groundbreaking medical breakthrough."
     },
     {
         id: 5,
