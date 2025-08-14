@@ -24,6 +24,11 @@ const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 const initialMovies: Movie[] = [
     {
+        id: 2,
+        title: "Tehran",
+        category: "bollywood",
+    },
+    {
     id: 1,
     title: "THE SMILE MAN",
     category: "south-indian",
