@@ -37,6 +37,7 @@ const initialMovies: Movie[] = [
     cast: ["Sarath Kumar", "Sija Rose", "Iniya"],
     subtitle: "English",
     storyline: "A Cop with Alzheimer’s disease, set to solve the case of a serial killer on the run,before he loses his memory",
+    posterUrl: "https://storage.googleapis.com/maker-studio-5f25b.appspot.com/assets/the-smile-man-poster.jpg",
   }
 ];
 
