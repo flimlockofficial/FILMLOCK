@@ -9,14 +9,15 @@ export function HomePageMovies() {
 
   return (
     <div className="container mx-auto max-w-screen-2xl py-16 space-y-16">
-      <section>
-        <h2 className="mb-8 font-headline text-4xl font-bold">Newly Released</h2>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {newlyReleasedMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-            ))}
+      {newlyReleasedMovies.length === 0 && 
+        hollywoodMovies.length === 0 && 
+        bollywoodMovies.length === 0 && 
+        animeMovies.length === 0 && 
+        southIndianMovies.length === 0 && (
+        <div className="text-center py-16 text-muted-foreground col-span-full">
+            <p>No movies have been added yet.</p>
         </div>
-      </section>
+      )}
 
       {hollywoodMovies.length > 0 && (
         <section>
