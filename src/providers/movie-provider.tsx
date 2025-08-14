@@ -26,7 +26,6 @@ const initialMovies: Movie[] = [
     {
     id: 1,
     title: "THE SMILE MAN",
-    posterUrl: "https://storage.googleapis.com/maker-studio-5f25b.appspot.com/assets/the-smile-man-poster.jpg",
     category: "south-indian",
     trailerUrl: "https://www.youtube.com/embed/jDO7clVUess",
     movieUrl: "https://linkpays.in/thesmileman",
