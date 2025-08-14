@@ -22,9 +22,11 @@ export function HomePageMovies() {
       {hollywoodMovies.length > 0 && (
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">Hollywood</h2>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="embla__container flex space-x-4 pb-4 -ml-4 pl-4">
             {hollywoodMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <div key={movie.id} className="min-w-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
+                <MovieCard movie={movie} />
+              </div>
             ))}
           </div>
         </section>
@@ -33,9 +35,11 @@ export function HomePageMovies() {
       {bollywoodMovies.length > 0 && (
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">Bollywood</h2>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="embla__container flex space-x-4 pb-4 -ml-4 pl-4">
             {bollywoodMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <div key={movie.id} className="min-w-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
+                <MovieCard movie={movie} />
+              </div>
             ))}
           </div>
         </section>
@@ -44,9 +48,11 @@ export function HomePageMovies() {
       {animeMovies.length > 0 && (
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">Anime</h2>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="embla__container flex space-x-4 pb-4 -ml-4 pl-4">
             {animeMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <div key={movie.id} className="min-w-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
+                <MovieCard movie={movie} />
+              </div>
             ))}
           </div>
         </section>
@@ -55,9 +61,11 @@ export function HomePageMovies() {
       {southIndianMovies.length > 0 && (
         <section>
           <h2 className="mb-8 font-headline text-4xl font-bold">South Indian Hindi Dubbed</h2>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="embla__container flex space-x-4 pb-4 -ml-4 pl-4">
             {southIndianMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <div key={movie.id} className="min-w-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
+                <MovieCard movie={movie} />
+              </div>
             ))}
           </div>
         </section>
