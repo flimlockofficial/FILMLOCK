@@ -36,7 +36,8 @@ const initialMovies: Movie[] = [
         cast: ["Scarlett Johansson", "Mahershala Ali", "Jonathan Bailey"],
         subtitle: "English",
         storyline: "Five years post-Jurassic World: Dominion (2022), an expedition braves isolated equatorial regions to extract DNA from three massive prehistoric creatures for a groundbreaking medical breakthrough.",
-        trailerUrl: "https://www.youtube.com/embed/jan5CFWs9ic"
+        trailerUrl: "https://www.youtube.com/embed/jan5CFWs9ic",
+        movieUrl: "https://linkpays.in/Jurassicworld"
     },
     {
         id: 5,
