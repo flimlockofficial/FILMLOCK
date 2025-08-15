@@ -34,7 +34,8 @@ const initialMovies: Movie[] = [
         genres: ["Crime", "Drama", "Thriller"],
         cast: ["Nick Offerman", "Jacob Tremblay", "Dennis Quaid"],
         subtitle: "English",
-        storyline: "A father and son who identify as Sovereign Citizens, a group of anti-government extremists, find themselves in a standoff with a chief of police that sets off a manhunt."
+        storyline: "A father and son who identify as Sovereign Citizens, a group of anti-government extremists, find themselves in a standoff with a chief of police that sets off a manhunt.",
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/Sovereign-2025.jpg"
     },
     {
         id: 6,
