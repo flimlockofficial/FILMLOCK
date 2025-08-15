@@ -27,6 +27,14 @@ const initialMovies: Movie[] = [
         id: 7,
         title: "Sovereign",
         category: "hollywood",
+        language: "English",
+        year: 2025,
+        size: "300MB | 730MB | 830MB | 1.6GB | 2GB",
+        quality: "1080p",
+        genres: ["Crime", "Drama", "Thriller"],
+        cast: ["Nick Offerman", "Jacob Tremblay", "Dennis Quaid"],
+        subtitle: "English",
+        storyline: "A father and son who identify as Sovereign Citizens, a group of anti-government extremists, find themselves in a standoff with a chief of police that sets off a manhunt."
     },
     {
         id: 6,
