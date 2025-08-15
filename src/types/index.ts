@@ -16,5 +16,4 @@ export interface Movie {
   subtitle?: string;
   storyline?: string;
   posterUrl?: string;
-  size?: string;
 }
