@@ -10,7 +10,7 @@ import React from "react";
 export function AnimeMovies() {
   const { animeMovies } = useMovies();
 
-  const AutoplayPlugin = () => Autoplay({ delay: 4000, stopOnInteraction: true });
+  const AutoplayPlugin = () => Autoplay({ delay: 4000, stopOnInteraction: false });
 
   if (animeMovies.length === 0) return (
      <div className="text-center py-16 text-muted-foreground col-span-full">

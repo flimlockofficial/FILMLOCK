@@ -10,7 +10,7 @@ import React from "react";
 export function HomePageMovies() {
     const { hollywoodMovies, bollywoodMovies, animeMovies, southIndianMovies } = useMovies();
     
-    const AutoplayPlugin = () => Autoplay({ delay: 4000, stopOnInteraction: true });
+    const AutoplayPlugin = () => Autoplay({ delay: 4000, stopOnInteraction: false });
 
   return (
     <div className="container mx-auto max-w-screen-2xl py-16 space-y-16">
