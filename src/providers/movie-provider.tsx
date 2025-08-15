@@ -68,7 +68,8 @@ const initialMovies: Movie[] = [
         genres: ["Action", "Horror", "Sci-Fi"],
         cast: ["Allison Williams", "Violet McGraw", "Amie Donald"],
         subtitle: "English",
-        storyline: "Two years after M3GAN’s rampage, her creator, Gemma, resorts to resurrecting her infamous creation in order to take down Amelia, the military-grade weapon who was built by a defense contractor who stole M3GAN’s underlying tech."
+        storyline: "Two years after M3GAN’s rampage, her creator, Gemma, resorts to resurrecting her infamous creation in order to take down Amelia, the military-grade weapon who was built by a defense contractor who stole M3GAN’s underlying tech.",
+        movieUrl: "https://linkpays.in/M3GAN"
     },
     {
         id: 3,
