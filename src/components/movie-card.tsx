@@ -5,14 +5,28 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Movie } from "@/types";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface MovieCardProps {
   movie: Movie;
 }
 
 export function MovieCard({ movie }: MovieCardProps) {
+  const router = useRouter();
+  const adUrl = "https://www.profitableratecpm.com/kccfyd2b8?key=493aa3678337d4b0d44c88ae6f9bad6b";
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    
+    // Open the ad link in a new tab
+    window.open(adUrl, '_blank');
+    
+    // Navigate to the movie details page in the current tab
+    router.push(`/movies/${movie.id}`);
+  };
+
   return (
-    <Link href={`/movies/${movie.id}`}>
+    <a href={`/movies/${movie.id}`} onClick={handleClick} className="block cursor-pointer">
       <Card className="group overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-primary/20">
         <CardContent className="relative p-0">
           {movie.posterUrl ? (
@@ -40,6 +54,6 @@ export function MovieCard({ movie }: MovieCardProps) {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </a>
   );
 }
