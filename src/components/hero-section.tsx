@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverAnchor } from "@/components/ui/popover";
 import { useMovies } from "@/providers/movie-provider";
 import type { Movie } from "@/types";
+import { AdScript } from "./ad-script";
 
 export function HeroSection() {
   const { getAllMovies } = useMovies();
@@ -87,6 +88,11 @@ export function HeroSection() {
             </PopoverContent>
           </Popover>
         </div>
+        
+        <div className="mt-6">
+          <AdScript />
+        </div>
+
          <div className="mt-8">
             <Button asChild size="lg" variant="outline" className="border-2">
               <Link href="https://t.me/flimlock" target="_blank" rel="noopener noreferrer">
