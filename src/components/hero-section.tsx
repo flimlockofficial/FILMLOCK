@@ -53,7 +53,7 @@ export function HeroSection() {
                   ref={inputRef}
                   type="search"
                   placeholder="Search for a movie..."
-                  className="h-14 flex-1 border-2 border-border bg-background/80 text-lg text-foreground placeholder:text-muted-foreground focus:bg-background focus:ring-primary"
+                  className="h-14 flex-1 border-2 border-primary/50 bg-background/80 text-lg text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:bg-background focus:shadow-[0_0_15px_hsl(var(--primary))] focus:border-primary"
                   aria-label="Search for a movie"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
