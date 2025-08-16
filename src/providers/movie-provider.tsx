@@ -27,6 +27,7 @@ const initialMovies: Movie[] = [
         id: 9,
         title: "My Hero Academia: You’re Next",
         category: "anime",
+        posterUrl: "https://bollyflixcdn.lol/wp-content/uploads/2025/08/My-Hero-Academia-Youre-Next-2024-Hindi-English-Japanese-Tamil-Telugu-Malayalam-Kannada-Movie.jpg",
         language: "Multi Audio [Hindi-English-Japanese-Tamil-Telugu-Malayalam-Kannada]",
         year: 2024,
         quality: "480p | 720p | 1080p",
