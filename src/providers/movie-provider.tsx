@@ -110,7 +110,8 @@ const initialMovies: Movie[] = [
         genres: ["Animation", "Fantasy"],
         cast: ["Kana Ichinose", "Yû Serizawa", "Sayumi Suzushiro"],
         subtitle: "English",
-        storyline: "Born with the job of an “appraiser,” Ein will go on to show the strength of his weak skill!."
+        storyline: "Born with the job of an “appraiser,” Ein will go on to show the strength of his weak skill!.",
+        movieUrl: "https://linkpays.in/Even-given",
     },
     {
         id: 2,
@@ -150,15 +151,21 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // This logic ensures that the app always starts with fresh data from the code,
-    // preventing issues with outdated data in localStorage.
-    const dataToLoad = initialMovies;
+    // This effect runs once on mount to initialize the state.
+    // It tries to load movies from localStorage first.
+    // If localStorage is empty, it populates it with the initial movie set.
     try {
-        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(dataToLoad));
+      const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
+      if (storedMovies) {
+        setMovies(JSON.parse(storedMovies));
+      } else {
+        localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(initialMovies));
+        setMovies(initialMovies);
+      }
     } catch (error) {
-        console.error("Failed to set movies in localStorage", error);
+      console.error("Failed to load movies from localStorage, using initial data.", error);
+      setMovies(initialMovies);
     }
-    setMovies(dataToLoad);
     setIsLoaded(true);
   }, []);
   
@@ -166,8 +173,8 @@ export const MovieProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isLoaded) {
       try {
+        // We only write to localStorage if the component is loaded to avoid overwriting on initial render.
         const storedMovies = localStorage.getItem(MOVIES_STORAGE_KEY);
-        // Only write to localStorage if the state is different from what's stored
         if (storedMovies !== JSON.stringify(movies)) {
           localStorage.setItem(MOVIES_STORAGE_KEY, JSON.stringify(movies));
         }
@@ -252,3 +259,5 @@ export const useMovies = () => {
   }
   return context;
 };
+
+    
