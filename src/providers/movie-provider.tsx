@@ -36,6 +36,7 @@ const initialMovies: Movie[] = [
         subtitle: "English",
         storyline: "Deku, Bakugo, Todoroki and the rest of U.A. High Class 1-A must face off against Dark Might and the obscure crime organisation under his control, the Gollini Family",
         trailerUrl: "https://www.youtube.com/embed/22hBq1cvemE",
+        movieUrl: "https://linkpays.in/Hero_acdemia_your_next",
     },
     {
         id: 7,
