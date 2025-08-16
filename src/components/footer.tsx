@@ -1,5 +1,6 @@
 import { Clapperboard, Instagram, Send, Youtube } from "lucide-react";
 import Link from "next/link";
+import { PopUnderAd } from "./pop-under-ad";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -30,6 +31,7 @@ export function Footer() {
           </div>
         </div>
       </div>
+      <PopUnderAd />
     </footer>
   );
 }
