@@ -2,17 +2,14 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Clapperboard, ShieldCheck, MoreVertical, LogOut } from "lucide-react";
+import { Menu, Clapperboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { useAdminAuth } from "@/hooks/use-admin-auth";
-import { logout } from "@/app/admin/login/actions";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-const baseNavLinks = [
+const navLinks = [
   { href: "/", label: "Home" },
   { href: "/movies", label: "Movies" },
   { href: "/contact", label: "Contact" },
@@ -21,16 +18,6 @@ const baseNavLinks = [
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAdmin } = useAdminAuth();
-
-  const navLinks = isAdmin 
-    ? [...baseNavLinks, { href: "/admin", label: "Admin Panel", icon: ShieldCheck }] 
-    : baseNavLinks;
-
-  const mobileNavLinks = isAdmin 
-    ? [...baseNavLinks, { href: "/admin", label: "Admin Panel", icon: ShieldCheck }]
-    : baseNavLinks;
-
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -55,30 +42,10 @@ export function Header() {
                     : "text-muted-foreground"
                 )}
               >
-                {link.icon && <link.icon className="h-4 w-4" />}
                 {link.label}
               </Link>
             ))}
           </nav>
-          
-          {isAdmin && (
-            <div className="hidden md:flex">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <MoreVertical className="h-5 w-5" />
-                    <span className="sr-only">Admin Menu</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => logout()}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Logout</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
         </div>
 
 
@@ -95,7 +62,7 @@ export function Header() {
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-6 pt-8">
-                {mobileNavLinks.map((link) => (
+                {navLinks.map((link) => (
                    <Link
                     key={link.href}
                     href={link.href}
@@ -107,18 +74,9 @@ export function Header() {
                         : "text-foreground"
                     )}
                   >
-                     {link.icon && <link.icon className="h-5 w-5" />}
                     {link.label}
                   </Link>
                 ))}
-                 {isAdmin && (
-                    <form action={logout}>
-                        <button type="submit" className="text-xl font-medium transition-colors hover:text-primary flex items-center gap-3 text-destructive">
-                            <LogOut className="h-5 w-5" />
-                            Logout
-                        </button>
-                    </form>
-                 )}
               </nav>
             </SheetContent>
           </Sheet>
