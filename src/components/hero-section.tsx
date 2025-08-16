@@ -59,7 +59,7 @@ export function HeroSection() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoComplete="off"
                 />
-                <Button type="submit" size="lg" className="h-14 bg-primary px-8 text-primary-foreground hover:bg-primary/90">
+                <Button type="submit" size="lg" className="h-14 bg-primary px-8 text-primary-foreground hover:bg-primary/90 transition-all duration-200 active:scale-95 active:shadow-[0_0_15px_hsl(var(--primary))]">
                   <Search className="mr-2 h-6 w-6" />
                   Search
                 </Button>
