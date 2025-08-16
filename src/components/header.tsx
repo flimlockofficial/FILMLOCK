@@ -2,12 +2,13 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Clapperboard } from "lucide-react";
+import { Menu, Clapperboard, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useAdminAuth } from "@/hooks/use-admin-auth";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,6 +19,9 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAdmin } = useAdminAuth();
+
+  const allNavLinks = isAdmin ? [...navLinks, { href: "/admin", label: "Admin", icon: ShieldCheck }] : navLinks;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -30,17 +34,18 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
-          {navLinks.map((link) => (
+          {allNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "px-3 py-2 transition-colors hover:text-primary",
+                "px-3 py-2 transition-colors hover:text-primary flex items-center gap-2",
                 pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) 
                   ? "text-primary" 
                   : "text-muted-foreground"
               )}
             >
+              {link.icon && <link.icon className="h-4 w-4" />}
               {link.label}
             </Link>
           ))}
@@ -59,18 +64,19 @@ export function Header() {
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-6 pt-8">
-                {navLinks.map((link) => (
+                {allNavLinks.map((link) => (
                    <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "text-xl font-medium transition-colors hover:text-primary",
+                      "text-xl font-medium transition-colors hover:text-primary flex items-center gap-3",
                        (pathname.startsWith(link.href) && link.href !== "/") || pathname === link.href 
                         ? "text-primary" 
                         : "text-foreground"
                     )}
                   >
+                     {link.icon && <link.icon className="h-5 w-5" />}
                     {link.label}
                   </Link>
                 ))}
