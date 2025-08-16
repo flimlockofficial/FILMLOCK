@@ -24,6 +24,18 @@ const MOVIES_STORAGE_KEY = 'filmLockMovies';
 
 const initialMovies: Movie[] = [
     {
+        id: 8,
+        title: "My Hero Academia: You’re Next",
+        category: "anime",
+        language: "Multi Audio [Hindi-English-Japanese-Tamil-Telugu-Malayalam-Kannada]",
+        year: 2024,
+        quality: "480p | 720p | 1080p",
+        genres: ["Animation", "Action", "Adventure"],
+        cast: ["Van Barr Jr.", "Nasim Benelkour", "Kimmie Britt"],
+        subtitle: "English",
+        storyline: "Deku, Bakugo, Todoroki and the rest of U.A. High Class 1-A must face off against Dark Might and the obscure crime organisation under his control, the Gollini Family",
+    },
+    {
         id: 7,
         title: "Sovereign",
         category: "hollywood",
