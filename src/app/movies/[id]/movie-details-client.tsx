@@ -14,6 +14,7 @@ import { Download, Play, HelpCircle } from "lucide-react";
 import type { Movie } from "@/types";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { trackDownload } from "@/app/admin/page-tracker";
 
 interface MovieDetailsClientProps {
   movie: Movie;
@@ -26,6 +27,10 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       description: "The movie file is not available for download.",
     });
   };
+  
+  const onDownloadClick = () => {
+    trackDownload();
+  }
 
   return (
     <div className="mt-8 flex flex-wrap gap-4">
@@ -61,6 +66,7 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
               target="_blank" 
               rel="noopener noreferrer" 
               className={cn(buttonVariants())}
+              onClick={onDownloadClick}
             >
                 <Download className="mr-2 h-5 w-5" />
                 Download Now
