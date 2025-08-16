@@ -5,14 +5,14 @@ import Link from "next/link";
 import { Menu, Clapperboard, ShieldCheck, MoreVertical, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useAdminAuth } from "@/hooks/use-admin-auth";
 import { logout } from "@/app/admin/login/actions";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-const navLinks = [
+const baseNavLinks = [
   { href: "/", label: "Home" },
   { href: "/movies", label: "Movies" },
   { href: "/contact", label: "Contact" },
@@ -23,7 +23,14 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isAdmin } = useAdminAuth();
 
-  const allNavLinks = isAdmin ? [...navLinks, { href: "/admin", label: "Admin", icon: ShieldCheck }] : navLinks;
+  const navLinks = isAdmin 
+    ? [...baseNavLinks, { href: "/admin", label: "Admin Panel", icon: ShieldCheck }] 
+    : baseNavLinks;
+
+  const mobileNavLinks = isAdmin 
+    ? [...baseNavLinks, { href: "/admin", label: "Admin Panel", icon: ShieldCheck }]
+    : baseNavLinks;
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -48,6 +55,7 @@ export function Header() {
                     : "text-muted-foreground"
                 )}
               >
+                {link.icon && <link.icon className="h-4 w-4" />}
                 {link.label}
               </Link>
             ))}
@@ -63,12 +71,6 @@ export function Header() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild>
-                    <Link href="/admin">
-                      <ShieldCheck className="mr-2 h-4 w-4" />
-                      <span>Admin Panel</span>
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => logout()}>
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Logout</span>
@@ -93,7 +95,7 @@ export function Header() {
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-6 pt-8">
-                {allNavLinks.map((link) => (
+                {mobileNavLinks.map((link) => (
                    <Link
                     key={link.href}
                     href={link.href}
