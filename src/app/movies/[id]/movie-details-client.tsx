@@ -14,6 +14,8 @@ import { Download, Play, HelpCircle } from "lucide-react";
 import type { Movie } from "@/types";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { trackDownload } from "@/app/admin/page-tracker";
+
 
 interface MovieDetailsClientProps {
   movie: Movie;
@@ -27,17 +29,14 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
     });
   };
 
-  const adLink = "https://www.profitableratecpm.com/kccfyd2b8?key=493aa3678337d4b0d44c88ae6f9bad6b";
-  
-  // Create a combined URL. The ad network might handle the redirect,
-  // or you might append the movieUrl as a query parameter.
-  // For now, we'll just redirect to the ad link as requested.
-  const downloadHref = movie.movieUrl ? adLink : "#";
+  const downloadHref = movie.movieUrl || "#";
 
   const handleDownloadClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!movie.movieUrl) {
       e.preventDefault();
       handleUnavailableDownload();
+    } else {
+        trackDownload();
     }
   };
   
