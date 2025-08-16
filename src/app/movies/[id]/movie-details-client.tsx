@@ -26,6 +26,20 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
       description: "The movie file is not available for download.",
     });
   };
+
+  const adLink = "https://www.profitableratecpm.com/kccfyd2b8?key=493aa3678337d4b0d44c88ae6f9bad6b";
+  
+  // Create a combined URL. The ad network might handle the redirect,
+  // or you might append the movieUrl as a query parameter.
+  // For now, we'll just redirect to the ad link as requested.
+  const downloadHref = movie.movieUrl ? adLink : "#";
+
+  const handleDownloadClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!movie.movieUrl) {
+      e.preventDefault();
+      handleUnavailableDownload();
+    }
+  };
   
   return (
     <div className="mt-8 flex flex-wrap gap-4">
@@ -55,22 +69,16 @@ export function MovieDetailsClient({ movie }: MovieDetailsClientProps) {
             </DialogContent>
         </Dialog>
       )}
-        {movie.movieUrl ? (
-            <Link 
-              href={movie.movieUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className={cn(buttonVariants())}
-            >
-                <Download className="mr-2 h-5 w-5" />
-                Download Now
-            </Link>
-        ) : (
-            <Button onClick={handleUnavailableDownload}>
-                <Download className="mr-2 h-5 w-5" />
-                Download Movie
-            </Button>
-        )}
+      <Link 
+        href={downloadHref}
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className={cn(buttonVariants(), !movie.movieUrl && "cursor-not-allowed opacity-50")}
+        onClick={handleDownloadClick}
+      >
+        <Download className="mr-2 h-5 w-5" />
+        {movie.movieUrl ? "Download Now" : "Download Movie"}
+      </Link>
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="secondary">
